@@ -9,6 +9,6 @@ router.get("/all", checkAuth, FileEndpoints.all)
 
 router.get("/item/:id", checkAuth, FileEndpoints.read)
 
-router.post("/item/", multer({ dest: 'temp/' }).single('file'), FileEndpoints.write)
+router.post("/item/", checkAuth, multer({ dest: 'temp/' }).single('file'), FileEndpoints.write)
 
 module.exports = router

@@ -1,11 +1,13 @@
-import React, {useContext} from 'react'
-import {AuthContext} from '../store/AuthStore'
+import React, {useContext, useEffect} from 'react'
+import {AuthContext} from './AuthStore'
+import {FileContext} from "./FileStore"
 
 export const ApiContext = React.createContext()
 
 export function ApiProvider(props){
 
     const auth = useContext(AuthContext)
+    const fileStore = useContext(FileContext)
 
     const ApiRequest = (uri, method, params, cb) => {
     
@@ -34,25 +36,33 @@ export function ApiProvider(props){
             })
     }
 
-    const LoginRequest = (type, username, password) => {
-        // ApiRequest("/api/user/login", "POST", {username, password}, res => {
-        //     console.log(res)
-        //     if (res.message === "AUTH_SUCCESS") {
-        //         auth.setLoggedIn(true)
-        //     }
-        // })
-        auth.setLoggedIn(true)
-        auth.setUserType(type.toLowerCase())
-        auth.setApiKey("keygozoom")
-        auth.setUserData({name: "jeff"})
+    const LoginRequest = (username, password) => {
+        ApiRequest("/api/user/login", "POST", {username, password}, res => {
+            console.log(res)
+            if (res.success === true) {
+                auth.setApiKey("keygozoom")
+                auth.setUserData({name: "jeff"})
+                auth.setLoggedIn(true)
+                return true
+            } else {
+                return false
+            }
+        })
+    }
 
-        return true
+    const GetFiles = () => {
+        console.log("get all files")
+        ApiRequest("/api/files/all", "GET", null, res => {
+            console.log(res)
+            fileStore.setFileStruct(res.data.Contents)
+        })
     }
 
     return (
         <ApiContext.Provider
             value={{
-                LoginRequest
+                LoginRequest,
+                GetFiles
             }}
         >
 

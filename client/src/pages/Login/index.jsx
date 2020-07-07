@@ -27,7 +27,7 @@ export default function Login() {
     return (
         <div>
             <h1 className="centerText">Login</h1>
-            <Form>
+            <Form onSubmit={onSubmit}>
                 <Form.Group controlId="formBasicEmail" >
                     <Form.Label>Username</Form.Label>
                     <Form.Control type="email" placeholder="Enter Username here:" value={username} onChange={onUsernameChange}/>

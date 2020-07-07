@@ -4,7 +4,6 @@ export const AuthContext = React.createContext()
 
 export function AuthProvider(props){
     const [loggedIn, setLoggedInInt] = useState(sessionStorage.getItem("loggedIn") || false)
-    const [userType, setUserTypeInt] = useState(sessionStorage.getItem("userType") || "")
     const [apiKey, setApiKeyInt] = useState(sessionStorage.getItem("apiKey") || "")
 
     const [userData, setUserDataInt] = useState(JSON.parse(sessionStorage.getItem("userData")) || {})
@@ -14,11 +13,6 @@ export function AuthProvider(props){
         setLoggedInInt(e)
     }
 
-    const setUserType = (e) => {
-        sessionStorage.setItem("userType", e)
-        setUserTypeInt(e)
-    }
-    
     const setApiKey = (e) => {
         sessionStorage.setItem("apiKey", e)
         setApiKeyInt(e)
@@ -34,8 +28,6 @@ export function AuthProvider(props){
             value = {{
                 loggedIn,
                 setLoggedIn,
-                userType,
-                setUserType,
                 apiKey,
                 setApiKey,
                 userData,

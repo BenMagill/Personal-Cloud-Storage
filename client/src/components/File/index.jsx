@@ -2,12 +2,15 @@ import React, {useContext} from 'react'
 import {Dropdown} from "react-bootstrap"
 import {FileContext} from "../../store/FileStore"
 import "./index.css"
+import {ApiContext} from "../../store/ApiStore"
 
 export default function Index(props) {
+    const apiStore = useContext(ApiContext)
     const fileStore = useContext(FileContext)
     const type = props.type
     const folder = props.folder
-    console.log(fileStore)
+    // console.log(fileStore)
+    // apiStore.GetFiles()
     const folderClick = (e) => {
         e.persist()
         console.log("kaboom")

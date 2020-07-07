@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import "./index.css"
 import File from "../../components/File"
 import {Table} from "react-bootstrap"
@@ -6,18 +6,27 @@ import Redirect from "react-router-dom/Redirect"
 import {AuthContext} from "../../store/AuthStore"
 import {FileContext} from "../../store/FileStore"   
 import axios from "axios"
+import { ApiContext } from '../../store/ApiStore'
 
 export default function Index() {
     const authStore = useContext(AuthContext)
     const fileStore = useContext(FileContext)
-
+    const apiStore = useContext(ApiContext)
+    
     const [filepath, setFilepath] = useState({})
-
+    
     const onFileChange = (event) => {
         setFilepath(event.target.files[0])
         // console.log(event.target.files)
     }
- 
+    
+    useEffect(() => {
+        apiStore.GetFiles()
+        return () => {
+            
+        }
+    }, [""])
+
     var folderFiles = []
     var folders = []
     var files = []
@@ -28,10 +37,8 @@ export default function Index() {
     for (let i = 0; i < fileStore.fileStruct.length; i++) {
         const element = fileStore.fileStruct[i];
         if (element.Key.startsWith(currentPath) && !element.Key.startsWith("/")) {
-            console.log(element)
             var stringShortPath = (element.Key.replace(currentPath,""))
             var arrayShortPath = stringShortPath.split("/")
-            console.log(arrayShortPath)
             if (arrayShortPath.length == 1) {
                 // it is a file in the current directory
                 // could have a check for if it is a "hidden file" of such that is used to create an empty folder
@@ -95,7 +102,6 @@ export default function Index() {
                 </tbody>
             </Table>
             <input type="file" name="" id="" onChange={onFileChange} />
-            {console.log(filepath)}
             <button onClick={onClickHandler}>Click</button>
             {authStore.loggedIn ? "" : <Redirect to="/login" />}
         </div>
