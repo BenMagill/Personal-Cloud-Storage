@@ -9,20 +9,38 @@ export default function Index(props) {
     const folder = props.folder
     console.log(fileStore)
     const folderClick = (e) => {
-        if (folder == "..") {
-            fileStore.popFolder()
-        } else {
-            fileStore.pushFolder(folder)
+        e.persist()
+        console.log("kaboom")
+        console.log(e)
+        
+        var flag = false
+        for (let i = 0; i < e.target.classList.length; i++) {
+            const element = e.target.classList[i];
+            if (element == "dropdown-toggle") {
+                flag = true
+            }
         }
+
+        if (flag) {
+            
+        } else {
+            if (folder == "..") {
+                fileStore.popFolder()
+            } else {
+                fileStore.pushFolder(folder)
+            }
+        }
+
+    
     }
 
     if (type == "folder") {
         return (
             <tr onClick={folderClick}>
-                <td>
+                <td className="test">
                     {props.folder}
                 </td>
-                <td>
+                <td className="test">
                     --
                 </td>
                 <td>

@@ -17,43 +17,33 @@ export default function Index() {
         setFilepath(event.target.files[0])
         // console.log(event.target.files)
     }
-
-    var currentFileStruct = fileStore.fileStruct
-
-    var counter = 0
-    var done = false
-    var error = false
-    if (fileStore.folders.length === 0) {
-        currentFileStruct = fileStore.fileStruct
-    } 
-
-    while (done == false) {
-        const tempFolderName = fileStore.folders[counter]
-        var inChildFolders = false
-        var tempFileStruc 
-        // check child folders for the next folder
-        for (let index = 0; index < currentFileStruct.folders.length; index++) {
-            const element = currentFileStruct.folders[index];
-            if (element.path === tempFolderName) {
-                inChildFolders = true
-                currentFileStruct = element
-            }
-            
-        }
-        if (inChildFolders == false) {
-            done = true
-            error = true
-        }
-        counter += 1
-        if (counter == fileStore.folders.length) {
-            done = true
-        }
+ 
+    var folderFiles = []
+    var folders = []
+    var files = []
+    var currentPath = (fileStore.folders.join("/"))
+    if (currentPath != "") {
+        currentPath = currentPath + "/"
     }
-
-    console.log({error, done, currentFileStruct})
-
-    const getCorrectFolder = () => {
-
+    for (let i = 0; i < fileStore.fileStruct.length; i++) {
+        const element = fileStore.fileStruct[i];
+        if (element.Key.startsWith(currentPath) && !element.Key.startsWith("/")) {
+            console.log(element)
+            var stringShortPath = (element.Key.replace(currentPath,""))
+            var arrayShortPath = stringShortPath.split("/")
+            console.log(arrayShortPath)
+            if (arrayShortPath.length == 1) {
+                // it is a file in the current directory
+                // could have a check for if it is a "hidden file" of such that is used to create an empty folder
+                files.push(element)
+            } else if (arrayShortPath.length > 1) {
+                // file is in a folder in directory
+                const folderName = arrayShortPath[0]
+                folders.push(folderName)
+            } else {
+                // error so do nothing
+            }
+        }
     }
 
 
@@ -85,18 +75,19 @@ export default function Index() {
                 <tbody>
 
                     {
-                        currentFileStruct.path == "$" ? null : <File type="folder" folder=".."/>
+                        fileStore.folders.length == 0 ? null : <File type="folder" folder=".."/>
                     }
                     
                     {
-                        currentFileStruct.folders.map(item => {
-                            return <File type="folder" folder={item.path}/>
+                        [...new Set(folders)].map(item => {
+                            return <File type="folder" folder={item}/>
 
                         })
                     }
                     {
-                        currentFileStruct.files.map(item => {
-                            return <File type="file" name={item.name}/>
+                        files.map(item => {
+                            const itemPath = item.Key.split("/")
+                            return <File type="file" name={itemPath[itemPath.length-1]}/>
 
                         })
                     }
