@@ -42,6 +42,7 @@ export default function FileRenderer() {
             }
         }
     }
+    console.log(files)
 
     return (
         <Table hover>
@@ -67,7 +68,7 @@ export default function FileRenderer() {
                 {
                     files.map(item => {
                         const itemPath = item.Key.split("/")
-                        return <File type="file" name={itemPath[itemPath.length-1]}/>
+                        return <File type="file" data={item} name={itemPath[itemPath.length-1]}/>
 
                     })
                 }

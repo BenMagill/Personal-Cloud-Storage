@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import {Dropdown} from "react-bootstrap"
 import {FileContext} from "../../store/FileStore"
 import "./index.css"
+import DateHandler from "../../DateHandler"
 import {ApiContext} from "../../store/ApiStore"
 
 export default function Index(props) {
@@ -74,7 +75,7 @@ export default function Index(props) {
                     {props.name}
                 </td>
                 <td>
-                    01/02/2003
+                    {DateHandler(props.data.LastModified)}
                 </td>
                 <td>
                     <Dropdown>
