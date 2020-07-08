@@ -5,7 +5,6 @@ import WelcomePage from "./pages/Welcome"
 import FilesPage from "./pages/Files"
 import RecentPage from "./pages/Recent"
 import LoginPage from "./pages/Login"
-import Sidebar from "./components/Sidebar"
 import './App.css';
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
             <BrowserRouter>
                 <Navbar />
                 <div className="main">
-                    <Sidebar />
                     <div className="body">
                         <Switch>
                             <Route path="/" exact component={WelcomePage} />

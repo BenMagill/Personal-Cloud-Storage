@@ -33,9 +33,15 @@ export default function Index(props) {
                 fileStore.pushFolder(folder)
             }
         }
-
-    
     }
+
+    const fileClick = (e => {
+        e.persist()
+        console.log(e)
+        if (e.target.className.includes("dropdown-toggle")) {
+            console.log("file click")
+        }
+    })
 
     if (type == "folder") {
         return (
@@ -63,7 +69,7 @@ export default function Index(props) {
         )
     } else {
         return (
-            <tr>
+            <tr onClick={fileClick}>
                 <td>
                     {props.name}
                 </td>
