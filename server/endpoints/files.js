@@ -1,8 +1,20 @@
 var AWS = require('aws-sdk')
 var fs = require("fs")
+var path = require("path")
+var s3Zip = require("s3-zip")
+// var S3Zipper = require("aws-s3-zipper")
+const { response } = require('express')
 
 var ep = new AWS.Endpoint('s3.us-west-000.backblazeb2.com')
 var s3 = new AWS.S3({endpoint: ep})
+
+// var zipper = new S3Zipper({
+//     endpoint: "s3.us-west-000.backblazeb2.com",
+//     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+//     region: "us-west-000",
+//     bucket: process.env.DB_BUCKET
+// })
 
 exports.all = (req, res, next) => {
     // Get all objects (files) from the bucket
@@ -32,6 +44,30 @@ exports.read = (req, res, next) => {
         // Supposedly does nothing.
         console.log(data)
     })
+}
+
+exports.readFolder = (req, res, next) => {
+    res.set("content-type", "application/zip")
+    var params = {Bucket: process.env.DB_BUCKET, MaxKeys: 1000}
+    s3.listObjects(params, (err, files1) => {
+        console.log(files1)
+        var files2 = []
+        var filesArch = []
+        for (let i = 0; i < files1.Contents.length; i++) {
+            const element = files1.Contents[i];
+            // console.log(element)
+            if (element.Key.startsWith(decodeURIComponent(req.params.id))) {
+                files2.push(element.Key.replace(req.params.id, ""))
+                filesArch.push({name: "/"+element.Key.replace(req.params.id,"")})
+            }
+        }
+        console.log({files2, filesArch})
+        s3Zip
+            .archive({ s3: s3, bucket: process.env.DB_BUCKET , debug: true}, req.params.id, files2, filesArch)
+            .pipe(res)
+
+    })
+    // res.json({"message":req.params.id.split("/")})
 }
 
 exports.write = (req, res, next) => {

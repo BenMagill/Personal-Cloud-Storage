@@ -59,7 +59,7 @@ export default function Index(props) {
                             ...
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Download</Dropdown.Item>
+                            <Dropdown.Item href={"/api/files/folder/"+(fileStore.folders.length > 0 ? encodeURIComponent(fileStore.folders.join("/") + "/" + props.folder+"/") : encodeURIComponent(props.folder+"/"))} target="_blank">Download</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Delete</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Rename</Dropdown.Item>
                         </Dropdown.Menu>
@@ -83,7 +83,7 @@ export default function Index(props) {
                             ...
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Download</Dropdown.Item>
+                            <Dropdown.Item href={"/api/files/item/"+encodeURIComponent(props.data.Key)} target="_blank">Download</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Share</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Delete</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Rename</Dropdown.Item>

@@ -10,7 +10,7 @@ export function ApiProvider(props){
     const fileStore = useContext(FileContext)
 
     const ApiRequest = (uri, method, params, cb) => {
-    
+        console.log(uri)
         var body = {
             method: method,
             headers: {
@@ -58,11 +58,19 @@ export function ApiProvider(props){
         })
     }
 
+    const DownloadFile = (filepath) => {
+        console.log(filepath)
+        ApiRequest("/api/files/item/"+encodeURIComponent(filepath), "GET", null, res => {
+            console.log(res)
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
                 LoginRequest,
-                GetFiles
+                GetFiles,
+                DownloadFile
             }}
         >
 

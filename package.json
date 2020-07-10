@@ -18,7 +18,7 @@
   },
   "homepage": "https://gitlab.com/ak8792lol/personal-cloud-storage#readme",
   "dependencies": {
-    "aws-sdk": "^2.709.0",
+    "aws-sdk": "^2.713.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -26,8 +26,9 @@
     "formidable": "^1.2.2",
     "hat": "0.0.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.20",
+    "mongoose": "^5.9.23",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "s3-zip": "^3.1.3"
   }
 }
