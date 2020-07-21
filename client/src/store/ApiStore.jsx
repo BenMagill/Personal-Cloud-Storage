@@ -31,7 +31,6 @@ export function ApiProvider(props){
                     auth.setLoggedIn(true)
                     cb(res)
                 }
-                auth.setLoaded(true)
                 cb(res)
             })
     }
@@ -45,9 +44,14 @@ export function ApiProvider(props){
                 auth.setLoggedIn(true)
                 return true
             } else {
+                auth.setLoggedIn(false)
                 return false
             }
         })
+    }
+
+    const CheckAuth = () => {
+        ApiRequest("/api/user/", "GET", null, res => {})
     }
 
     const GetFiles = () => {
@@ -65,15 +69,32 @@ export function ApiProvider(props){
         })
     }
 
+    const RenameFile = (oldName, newName) => {
+        ApiRequest("/api/files/item/rename", "POST", {oldName, newName}, res => {
+            console.log(res)
+            GetFiles()
+        })
+    }
+
+    const DeleteFile = (name) => {
+        console.log(name)
+        ApiRequest("/api/files/item/delete", "POST", {name}, res => {
+            console.log(res)
+            GetFiles()
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
                 LoginRequest,
                 GetFiles,
-                DownloadFile
+                DownloadFile,
+                CheckAuth,
+                RenameFile,
+                DeleteFile
             }}
         >
-
             {props.children}
         </ApiContext.Provider>
     )

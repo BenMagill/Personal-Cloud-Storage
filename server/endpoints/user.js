@@ -11,18 +11,22 @@ exports.login = (req, res, next) => {
     const inputPassword = req.body.password
 
     if (username === inputUsername && password === inputPassword) {
-        const key = generateKey()
-        var token = jwt.sign({
-                key
-            },
-            process.env.JWT_KEY,
-            {
-                expiresIn: "3h"
-            }
-        )
-        process.env.CURRENTKEY = key
-        res.cookie("Auth", token, {maxAge: 19000000})
-        return res.status(200).json({success: true})
+        try {
+            const key = generateKey()
+            var token = jwt.sign({
+                    key
+                },
+                process.env.JWT_KEY,
+                {
+                    expiresIn: "3h"
+                }
+            )
+            process.env.CURRENTKEY = key
+            res.cookie("Auth", token, {maxAge: 19000000})
+            return res.status(200).json({success: true})
+        } catch (error) {
+            return res.status(401).json({success: false})
+        }
     } else {
         return res.status(401).json({success: false})
     }

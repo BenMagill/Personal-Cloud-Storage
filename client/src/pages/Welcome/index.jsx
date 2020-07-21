@@ -6,8 +6,7 @@ export default function Index() {
     const authStore = useContext(AuthContext)
     return (
         <div>
-            Welcome!!
-            {authStore.loggedIn ? "" : <Redirect to="/login" />}
+            {authStore.loggedIn ? <Redirect to="/files" /> : <Redirect to="/login" />}
         </div>
         
     )

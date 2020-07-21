@@ -20,20 +20,24 @@ export default function UploadModal(props) {
 
     const onClickHandler = () => {
         const data = new FormData() 
-        data.append('path', fileStore.folders.join("/")+"/")
+        if (fileStore.folders.length == 0) {
+            data.append("path", "")
+        } else {
+            data.append('path', fileStore.folders.join("/")+"/")
+        }
         data.append('file', filepath)
         axios.post("http://localhost:3030/api/files/item", data, {headers: {'content-type': 'multipart/form-data'}}, {
-          onUploadProgress: ProgressEvent => {
-          },
+            onUploadProgress: ProgressEvent => {
+            },
         })
-          .then(res => { // then print response status
-            console.log('upload success')
-            apiStore.GetFiles()
+            .then(res => { // then print response status
+                console.log('upload success')
+                apiStore.GetFiles()
             
             // Needs to close or show a message
           })
           .catch(err => { // then print response status
-            console.log('upload fail')
+              console.log('upload fail')
           })
     }
     return (

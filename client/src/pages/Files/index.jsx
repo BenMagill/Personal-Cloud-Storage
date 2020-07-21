@@ -41,8 +41,8 @@ export default function Index() {
 
             <FileRenderer />
 
-            <input type="file" name="" id="" onChange={onFileChange} />
-            <button onClick={onClickHandler}>Click</button>
+            {/* <input type="file" name="" id="" onChange={onFileChange} />
+            <button onClick={onClickHandler}>Click</button> */}
             {authStore.loggedIn ? "" : <Redirect to="/login" />}
         </div>
     )

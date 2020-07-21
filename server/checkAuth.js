@@ -8,11 +8,18 @@ module.exports = (req, res, next) => {
             message: "AUTH_FAILED"
         })
     }
-    const decoded = jwt.verify(tokenIn, process.env.JWT_KEY)
-    const key = process.env.CURRENTKEY
-    if (decoded.key === key) {
-        next()
-    } else {
+    try {
+        const decoded = jwt.verify(tokenIn, process.env.JWT_KEY)
+        const key = process.env.CURRENTKEY
+        if (decoded.key === key) {
+            next()
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: "AUTH_FAILED"
+            })
+        }
+    } catch (error) {
         return res.status(401).json({
             success: false,
             message: "AUTH_FAILED"

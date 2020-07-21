@@ -36,7 +36,7 @@ export default function Login() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter Password here:" value={password} onChange={onPasswordChange}/>
                 </Form.Group>
-                <Button variant="primary" onClick={onSubmit}>
+                <Button variant="primary" type="submit" onSubmut={onSubmit} onClick={onSubmit}>
                     Login
                 </Button>
             </Form>

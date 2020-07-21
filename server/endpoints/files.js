@@ -7,6 +7,7 @@ const { response } = require('express')
 
 var ep = new AWS.Endpoint('s3.us-west-000.backblazeb2.com')
 var s3 = new AWS.S3({endpoint: ep})
+const Bucket = process.env.DB_BUCKET
 
 // var zipper = new S3Zipper({
 //     endpoint: "s3.us-west-000.backblazeb2.com",
@@ -24,7 +25,7 @@ exports.all = (req, res, next) => {
             console.log(err)
             res.status(500).json({message: "ERROR"})
         } else {
-            console.log(data.Contents);
+            // console.log(data.Contents)
             res.status(200).json({data})
         }
     })
@@ -82,5 +83,36 @@ exports.write = (req, res, next) => {
             console.log(data)
             res.status(200).json({message: "worked"})
         }
+    })
+}
+
+exports.rename = (req, res, next) => {
+    var oldName = req.body.oldName
+    var newName = req.body.newName
+    console.log({oldName, newName})
+    const params = {Bucket: process.env.DB_BUCKET, CopySource: process.env.DB_BUCKET+"/"+oldName, Key: newName}
+    s3.copyObject(params, (err, data) => {
+        if (err) {
+            console.log(err)
+            res.json({success: false})
+        }
+        s3.deleteObject({Bucket: process.env.DB_BUCKET, Key: oldName}, (err, data) => {
+            if (err) {
+                console.log(err)
+                res.json({success: false})
+            }
+            res.json({success: true})
+        })
+    })
+}
+
+exports.delete = (req, res, next) => {
+    var name = req.body.name
+    s3.deleteObject({Bucket:process.env.DB_BUCKET, Key: name}, (err, data) => {
+        if (err) {
+            console.log(err)
+            res.json({success: false})
+        }
+        res.json({success: true})
     })
 }
