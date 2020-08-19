@@ -84,6 +84,12 @@ export function ApiProvider(props){
         })
     }
 
+    const CreateFolder = (path) => {
+        ApiRequest("/api/files/folder/new", "POST", {path}, res => {
+            GetFiles()
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
@@ -92,7 +98,8 @@ export function ApiProvider(props){
                 DownloadFile,
                 CheckAuth,
                 RenameFile,
-                DeleteFile
+                DeleteFile,
+                CreateFolder
             }}
         >
             {props.children}

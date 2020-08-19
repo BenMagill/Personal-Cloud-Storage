@@ -31,8 +31,10 @@ export default function FileRenderer() {
             var arrayShortPath = stringShortPath.split("/")
             if (arrayShortPath.length == 1) {
                 // it is a file in the current directory
-                // could have a check for if it is a "hidden file" of such that is used to create an empty folder
-                files.push(element)
+                // check for if it is a "hidden file" of such that is used to create an empty folder
+                if (element.Key.split("/")[element.Key.split("/").length-1] != ".hidden"){
+                    files.push(element)
+                }
             } else if (arrayShortPath.length > 1) {
                 // file is in a folder in directory
                 const folderName = arrayShortPath[0]

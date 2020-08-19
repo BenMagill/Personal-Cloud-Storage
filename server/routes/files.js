@@ -17,4 +17,6 @@ router.post("/item/rename", checkAuth, FileEndpoints.rename)
 
 router.post("/item/delete", checkAuth, FileEndpoints.delete)
 
+router.post("/folder/new", checkAuth, FileEndpoints.createFolder)
+
 module.exports = router

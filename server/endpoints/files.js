@@ -116,3 +116,16 @@ exports.delete = (req, res, next) => {
         res.json({success: true})
     })
 }
+
+exports.createFolder = (req, res, next) => {
+    var folderPath = req.body.path
+    var params = {Bucket: process.env.DB_BUCKET, Body: "", Key: req.body.path+"/.hidden"}
+    s3.upload(params, (err, data) => {
+        if (err) {
+            console.log(err)
+        }
+        if (data) {
+            res.status(200).json({message: "worked"})
+        }
+    })
+}
