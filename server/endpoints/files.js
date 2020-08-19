@@ -106,7 +106,7 @@ exports.rename = (req, res, next) => {
     })
 }
 
-exports.delete = (req, res, next) => {
+exports.deleteFile = (req, res, next) => {
     var name = req.body.name
     s3.deleteObject({Bucket:process.env.DB_BUCKET, Key: name}, (err, data) => {
         if (err) {
@@ -114,6 +114,31 @@ exports.delete = (req, res, next) => {
             res.json({success: false})
         }
         res.json({success: true})
+    })
+}
+
+exports.deleteFolder = (req, res, next) => {
+    var path = req.body.path+"/"
+    console.log(path)
+    var params = {Bucket: process.env.DB_BUCKET, MaxKeys: 1000}
+    s3.listObjects(params, (err, files) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json({message: "ERROR"})
+        }
+        for (let i = 0; i < files.Contents.length; i++) {
+            const file = files.Contents[i];
+            if (file.Key.startsWith(path)) {
+                console.log(file)
+                s3.deleteObject({Bucket:process.env.DB_BUCKET, Key: file.Key}, (err, data) => {
+                    if (err) {
+                        console.log(err)
+                        res.json({success: false})
+                    }
+                })
+            }
+        }
+        res.status(200).json({success: true})
     })
 }
 

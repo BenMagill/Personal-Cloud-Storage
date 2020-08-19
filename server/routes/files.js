@@ -15,8 +15,10 @@ router.post("/item/", checkAuth, multer({ dest: 'temp/' }).single('file'), FileE
 
 router.post("/item/rename", checkAuth, FileEndpoints.rename)
 
-router.post("/item/delete", checkAuth, FileEndpoints.delete)
+router.post("/item/delete", checkAuth, FileEndpoints.deleteFile)
 
 router.post("/folder/new", checkAuth, FileEndpoints.createFolder)
+
+router.post("/folder/delete", checkAuth, FileEndpoints.deleteFolder)
 
 module.exports = router

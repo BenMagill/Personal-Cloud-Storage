@@ -26,7 +26,7 @@ export default function Index(props) {
                 flag = true
             }
         }
-
+        
         if (flag) {
             
         } else {
@@ -70,6 +70,18 @@ export default function Index(props) {
         apiStore.DeleteFile(filePath)
     }
 
+    const handleFolderDelete = () => {
+        var filePath
+        if (fileStore.folders.length == 0) {
+            filePath = props.folder
+        } else {
+            filePath = fileStore.folders.join("/") + "/" + props.folder
+        }
+        console.log(filePath)
+        console.log(props)
+        apiStore.DeleteFolder(filePath)
+    }
+
     if (type == "folder") {
         return (
             <React.Fragment>
@@ -87,7 +99,7 @@ export default function Index(props) {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item href={"/api/files/folder/"+(fileStore.folders.length > 0 ? encodeURIComponent(fileStore.folders.join("/") + "/" + props.folder+"/") : encodeURIComponent(props.folder+"/"))} target="_blank">Download</Dropdown.Item>
-                            <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Delete</Dropdown.Item>
+                            <Dropdown.Item href="" onClick={()=>{handleFolderDelete()}}>Delete</Dropdown.Item>
                             <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Rename</Dropdown.Item>
                         </Dropdown.Menu>
 
@@ -113,10 +125,10 @@ export default function Index(props) {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item href={"/api/files/item/"+encodeURIComponent(props.data.Key)} target="_blank">Download</Dropdown.Item>
-                                <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Share</Dropdown.Item>
+                                {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Share</Dropdown.Item> */}
                                 <Dropdown.Item href="" onClick={handleFileDelete}>Delete</Dropdown.Item>
                                 <Dropdown.Item href="" onClick={()=>setRenameModal(true)}>Rename</Dropdown.Item>
-                                <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Other Versions</Dropdown.Item>
+                                {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Other Versions</Dropdown.Item> */}
                             </Dropdown.Menu>
 
                         </Dropdown>

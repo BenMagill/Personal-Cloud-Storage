@@ -84,6 +84,12 @@ export function ApiProvider(props){
         })
     }
 
+    const DeleteFolder = (path) => {
+        ApiRequest("/api/files/folder/delete", "POST", {path}, res => {
+            GetFiles()
+        })
+    }
+
     const CreateFolder = (path) => {
         ApiRequest("/api/files/folder/new", "POST", {path}, res => {
             GetFiles()
@@ -99,7 +105,8 @@ export function ApiProvider(props){
                 CheckAuth,
                 RenameFile,
                 DeleteFile,
-                CreateFolder
+                CreateFolder,
+                DeleteFolder
             }}
         >
             {props.children}
