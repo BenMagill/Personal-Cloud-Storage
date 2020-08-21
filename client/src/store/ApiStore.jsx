@@ -96,6 +96,13 @@ export function ApiProvider(props){
         })
     }
 
+    const GetRecents = (cb) => {
+        ApiRequest("/api/files/recent", "GET", null, res => {
+            // console.log(res)
+            cb(res)
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
@@ -106,7 +113,8 @@ export function ApiProvider(props){
                 RenameFile,
                 DeleteFile,
                 CreateFolder,
-                DeleteFolder
+                DeleteFolder,
+                GetRecents
             }}
         >
             {props.children}

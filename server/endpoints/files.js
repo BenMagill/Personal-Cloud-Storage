@@ -154,3 +154,25 @@ exports.createFolder = (req, res, next) => {
         }
     })
 }
+
+exports.recent = (req, res, next) => {
+    // Get all objects (files) from the bucket
+    var params = {Bucket: process.env.DB_BUCKET, MaxKeys: 1000}
+    s3.listObjects(params, function(err, data) {
+        if (err) {
+            console.log(err)
+            res.status(500).json({message: "ERROR"})
+        } else {
+            // console.log(data.Contents)
+            res.status(200).json(data.Contents.sort((curr,  next) => {
+                if (curr.LastModified < next.LastModified) {
+                    return -1
+                } else if (curr.LastModified > next.LastModified) {
+                    return 1
+                } else {
+                    return 0
+                }
+            }).reverse().slice(0, 5))
+        }
+    })
+}

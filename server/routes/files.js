@@ -21,4 +21,6 @@ router.post("/folder/new", checkAuth, FileEndpoints.createFolder)
 
 router.post("/folder/delete", checkAuth, FileEndpoints.deleteFolder)
 
+router.get("/recent", checkAuth, FileEndpoints.recent)
+
 module.exports = router
