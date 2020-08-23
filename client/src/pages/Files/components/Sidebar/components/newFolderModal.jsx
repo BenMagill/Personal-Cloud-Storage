@@ -1,9 +1,10 @@
 import React, {useContext, useState} from 'react'
-import {Modal} from "react-bootstrap"
+import {Modal, Button, FormControl} from "react-bootstrap"
 import Redirect from "react-router-dom/Redirect"
 import {AuthContext} from "../../../../../store/AuthStore"
 import {ApiContext} from "../../../../../store/ApiStore"
-import {FileContext} from "../../../../../store/FileStore"   
+import {FileContext} from "../../../../../store/FileStore"
+import "./newFolderModal.css"   
 
 export default function UploadModal(props) {
     const authStore = useContext(AuthContext)
@@ -25,13 +26,23 @@ export default function UploadModal(props) {
             newPath = fileStore.folders.join("/")+"/"+folderName
         }
         apiStore.CreateFolder(newPath)
+        props.close()
         console.log(newPath)
     }
     return (
         <Modal show={props.show} onHide={props.close}>
-            Upload a file to the current folder
-            <input type="text" name="" id="" onChange={onFolderChange} />
-            <button onClick={onClickHandler}>Click</button>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    New Folder
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <FormControl type="text" name="" id="" placeholder="Name" onChange={onFolderChange} />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={props.close}>Close</Button>
+                <Button onClick={onClickHandler}>Create</Button>
+            </Modal.Footer>
             {authStore.loggedIn ? "" : <Redirect to="/login" />}
         </Modal>
     )

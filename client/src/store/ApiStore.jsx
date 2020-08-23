@@ -98,7 +98,6 @@ export function ApiProvider(props){
 
     const GetRecents = (cb) => {
         ApiRequest("/api/files/recent", "GET", null, res => {
-            // console.log(res)
             cb(res)
         })
     }
