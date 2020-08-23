@@ -4,7 +4,6 @@ import Redirect from "react-router-dom/Redirect"
 import {AuthContext} from "../../../../../store/AuthStore"
 import {ApiContext} from "../../../../../store/ApiStore"
 import {FileContext} from "../../../../../store/FileStore"
-import "./newFolderModal.css"   
 
 export default function UploadModal(props) {
     const authStore = useContext(AuthContext)
