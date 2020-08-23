@@ -127,6 +127,7 @@ exports.renameFolder = (req, res, next) => {
                     const oldKey = file.Key
                     const newKey = newName + file.Key.replace(oldName, "")
                     await rename(oldKey, newKey)
+                    console.log("renamed")
                 }
             }
             console.log("done")

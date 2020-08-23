@@ -69,10 +69,9 @@ export function ApiProvider(props){
         })
     }
 
-    const RenameFile = (oldName, newName) => {
+    const RenameFile = (oldName, newName, cb) => {
         ApiRequest("/api/files/item/rename", "POST", {oldName, newName}, res => {
-            console.log(res)
-            GetFiles()
+            cb(res)
         })
     }
 

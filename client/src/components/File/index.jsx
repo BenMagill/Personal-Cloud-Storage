@@ -59,7 +59,10 @@ export default function Index(props) {
             oldName = fileStore.folders.join("/")+"/"+props.name
         }
         console.log({newName, oldName})
-        apiStore.RenameFile(oldName, newName)
+        apiStore.RenameFile(oldName, newName, () => {
+            apiStore.GetFiles()
+            setRenameModal(false)
+        })
     }
 
     const handleFolderRenameClick = () => {
@@ -74,7 +77,10 @@ export default function Index(props) {
         }
         console.log({newName, oldName})
         apiStore.RenameFolder(oldName, newName, () => {
-            apiStore.GetFiles()
+            setTimeout(() => {
+                setRenameFolderModal(false)
+                apiStore.GetFiles()
+            }, 2000);
         })
     }
 
