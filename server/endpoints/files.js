@@ -85,24 +85,53 @@ exports.write = (req, res, next) => {
         }
     })
 }
-
-exports.rename = (req, res, next) => {
-    var oldName = req.body.oldName
-    var newName = req.body.newName
-    console.log({oldName, newName})
+const rename = async (oldName, newName, cb) => {
     const params = {Bucket: process.env.DB_BUCKET, CopySource: process.env.DB_BUCKET+"/"+oldName, Key: newName}
     s3.copyObject(params, (err, data) => {
         if (err) {
             console.log(err)
-            res.json({success: false})
+            if (cb) cb(false)
+            // res.json({success: false})
         }
         s3.deleteObject({Bucket: process.env.DB_BUCKET, Key: oldName}, (err, data) => {
             if (err) {
                 console.log(err)
                 res.json({success: false})
             }
-            res.json({success: true})
+            if (cb) cb(true)
+            // res.json({success: true})
         })
+    })
+}
+exports.rename = (req, res, next) => {
+    var oldName = req.body.oldName
+    var newName = req.body.newName
+    rename(oldName, newName, success => {
+        if (success) res.json({success: true})
+        else res.json({success: false})
+    })
+}
+
+exports.renameFolder = (req, res, next) => {
+    var {oldName, newName} = req.body
+    console.log({oldName, newName})
+    var params = {Bucket: process.env.DB_BUCKET, MaxKeys: 1000}
+    s3.listObjects(params, async (err, files) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json({message: "ERROR"})
+        } else {
+            for (let i = 0; i < files.Contents.length; i++) {
+                const file = files.Contents[i];
+                if (file.Key.startsWith(oldName)) {
+                    const oldKey = file.Key
+                    const newKey = newName + file.Key.replace(oldName, "")
+                    await rename(oldKey, newKey)
+                }
+            }
+            console.log("done")
+            res.json({success:true})   
+        }
     })
 }
 

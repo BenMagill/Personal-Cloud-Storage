@@ -102,6 +102,12 @@ export function ApiProvider(props){
         })
     }
 
+    const RenameFolder = (oldName, newName, cb) => {
+        ApiRequest("/api/files/folder/rename", "POST", {oldName, newName}, res => {
+            cb(res)
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
@@ -113,7 +119,8 @@ export function ApiProvider(props){
                 DeleteFile,
                 CreateFolder,
                 DeleteFolder,
-                GetRecents
+                GetRecents,
+                RenameFolder
             }}
         >
             {props.children}
