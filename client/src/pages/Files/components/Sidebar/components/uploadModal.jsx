@@ -26,7 +26,7 @@ export default function UploadModal(props) {
             data.append('path', fileStore.folders.join("/")+"/")
         }
         data.append('file', filepath)
-        axios.post("http://localhost:3030/api/files/item", data, {headers: {'content-type': 'multipart/form-data'}}, {
+        axios.post("/api/files/item", data, {headers: {'content-type': 'multipart/form-data'}}, {
             onUploadProgress: ProgressEvent => {
             },
         })
