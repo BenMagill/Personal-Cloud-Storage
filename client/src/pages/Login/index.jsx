@@ -28,9 +28,9 @@ export default function Login() {
         <div>
             <h1 className="centerText">Login</h1>
             <Form onSubmit={onSubmit}>
-                <Form.Group controlId="formBasicEmail" >
+                <Form.Group controlId="formBasicEText" >
                     <Form.Label>Username</Form.Label>
-                    <Form.Control type="email" placeholder="Enter Username here:" value={username} onChange={onUsernameChange}/>
+                    <Form.Control type="text" placeholder="Enter Username here:" value={username} onChange={onUsernameChange}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" >
                     <Form.Label>Password</Form.Label>
