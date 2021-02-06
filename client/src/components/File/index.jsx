@@ -15,8 +15,14 @@ export default function Index(props) {
     const [newFolderName, setNewFolderName] = useState(props.folder)
     const type = props.type
     const folder = props.folder
+    const isFolder = type == "folder"
     // console.log(fileStore)
     // apiStore.GetFiles()
+    const handleClick = (e) => {
+        if (isFolder) folderClick(e)
+        else fileClick(e)
+    }
+
     const folderClick = (e) => {
         e.persist()
         console.log("kaboom")
@@ -107,96 +113,75 @@ export default function Index(props) {
         apiStore.DeleteFolder(filePath)
     }
 
-    if (type == "folder") {
-        return (
-            <React.Fragment>
-            <tr onClick={folderClick}>
-                <td className="test">
-                    {props.folder}
-                </td>
-                <td className="test">
-                    --
-                </td>
-                <td className="test">
-                    --
-                </td>
-                <td>
-                    <Dropdown>
-                        <Dropdown.Toggle>
-                            ...
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Dropdown.Item href={"/api/files/folder/"+(fileStore.folders.length > 0 ? encodeURIComponent(fileStore.folders.join("/") + "/" + props.folder+"/") : encodeURIComponent(props.folder+"/"))} target="_blank">Download</Dropdown.Item>
-                            <Dropdown.Item href="" onClick={()=>{handleFolderDelete()}}>Delete</Dropdown.Item>
-                            <Dropdown.Item href="" onClick={()=>setRenameFolderModal(true)}>Rename</Dropdown.Item>
-                        </Dropdown.Menu>
-
-                    </Dropdown>
-                </td>
-            </tr>
-            <Modal autoFocus show={renameFolderModal} onHide={()=>setRenameFolderModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Rename Folder</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <InputGroup>
-                        <FormControl placeholder="New Name" value={newFolderName} onChange={(e)=>setNewFolderName(e.target.value)}  />
-                    </InputGroup>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={handleFolderRenameClick} variant="primary">Update</Button>
-                    <Button variant="secondary" onClick={()=>setRenameFolderModal(false)}>Cancel</Button>
-                </Modal.Footer>
-            </Modal>
-            </React.Fragment>
-        )
-    } else {
-        return (
-            <React.Fragment>
-                <tr onClick={fileClick}>
-                    <td>
-                        {props.name}
-                    </td>
-                    <td>
-                        {BytesToSize(props.data.Size)}
-                    </td>
-                    <td>
-                        {DateHandler(props.data.LastModified)}
-                    </td>
-                    <td>
-                        <Dropdown>
-                            <Dropdown.Toggle>
-                                ...
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item href={"/api/files/item/"+encodeURIComponent(props.data.Key)} target="_blank">Download</Dropdown.Item>
-                                {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Share</Dropdown.Item> */}
-                                <Dropdown.Item href="" onClick={handleFileDelete}>Delete</Dropdown.Item>
-                                <Dropdown.Item href="" onClick={()=>setRenameModal(true)}>Rename</Dropdown.Item>
-                                {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Other Versions</Dropdown.Item> */}
-                            </Dropdown.Menu>
-
-                        </Dropdown>
-                    </td>
-                </tr>
-                <Modal autoFocus show={renameModal} onHide={()=>setRenameModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Rename</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <InputGroup>
-                            <FormControl placeholder="New Name" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)}  />
-                            <InputGroup.Append>
-                                <InputGroup.Text id="basic-addon2">{"."+props.name.split(".")[1]}</InputGroup.Text>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={handleFileRenameClick} variant="primary">Update</Button>
-                        <Button variant="secondary" onClick={()=>setRenameModal(false)}>Cancel</Button>
-                    </Modal.Footer>
-                </Modal>
-            </React.Fragment>
-        )
-    }
+    return (
+        <React.Fragment>
+        <tr onClick={handleClick}>
+            <td>
+                {isFolder?props.folder:props.name}
+            </td>
+            <td>
+                {isFolder?"--":BytesToSize(props.data.Size)}
+            </td>
+            <td>
+                {isFolder?"--":DateHandler(props.data.LastModified)}
+            </td>
+            <td>
+                <Dropdown>
+                    <Dropdown.Toggle>
+                        ...
+                    </Dropdown.Toggle>
+                    {isFolder?
+                    <Dropdown.Menu>
+                        <Dropdown.Item href={"/api/files/folder/"+(fileStore.folders.length > 0 ? encodeURIComponent(fileStore.folders.join("/") + "/" + props.folder+"/") : encodeURIComponent(props.folder+"/"))} target="_blank">Download</Dropdown.Item>
+                        <Dropdown.Item href="" onClick={()=>{handleFolderDelete()}}>Delete</Dropdown.Item>
+                        <Dropdown.Item href="" onClick={()=>setRenameFolderModal(true)}>Rename</Dropdown.Item>
+                    </Dropdown.Menu>
+                    :
+                    <Dropdown.Menu>
+                        <Dropdown.Item href={"/api/files/item/"+encodeURIComponent(props.data.Key)} target="_blank">Download</Dropdown.Item>
+                        {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Share</Dropdown.Item> */}
+                        <Dropdown.Item href="" onClick={handleFileDelete}>Delete</Dropdown.Item>
+                        <Dropdown.Item href="" onClick={()=>setRenameModal(true)}>Rename</Dropdown.Item>
+                        {/* <Dropdown.Item href="" onClick={()=>{console.log("click")}}>Other Versions</Dropdown.Item> */}
+                    </Dropdown.Menu>
+                    }
+                </Dropdown>
+            </td>
+        </tr>
+        {isFolder?
+        <Modal autoFocus show={renameFolderModal} onHide={()=>setRenameFolderModal(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Rename Folder</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <InputGroup>
+                    <FormControl placeholder="New Name" value={newFolderName} onChange={(e)=>setNewFolderName(e.target.value)}  />
+                </InputGroup>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={handleFolderRenameClick} variant="primary">Update</Button>
+                <Button variant="secondary" onClick={()=>setRenameFolderModal(false)}>Cancel</Button>
+            </Modal.Footer>
+        </Modal>
+        :    
+        <Modal autoFocus show={renameModal} onHide={()=>setRenameModal(false)}>
+            <Modal.Header closeButton>
+                <Modal.Title>Rename</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <InputGroup>
+                    <FormControl placeholder="New Name" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)}  />
+                    <InputGroup.Append>
+                        <InputGroup.Text id="basic-addon2">{"."+props.name.split(".")[1]}</InputGroup.Text>
+                    </InputGroup.Append>
+                </InputGroup>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={handleFileRenameClick} variant="primary">Update</Button>
+                <Button variant="secondary" onClick={()=>setRenameModal(false)}>Cancel</Button>
+            </Modal.Footer>
+        </Modal>
+        }
+        </React.Fragment>
+    )
 }
