@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Dropdown, Modal, Button, FormControl, InputGroup} from "react-bootstrap"
 import {FileContext} from "../../store/FileStore"
 import "./index.css"
@@ -11,11 +11,28 @@ export default function Index(props) {
     const fileStore = useContext(FileContext)
     const [renameModal, setRenameModal] = useState(false)
     const [renameFolderModal, setRenameFolderModal] = useState(false)
-    const [newFileName, setNewFileName] = useState(props.name ? props.name.split(".")[0]:"")
+    const [newFileName, setNewFileName] = useState("")
+    const [fileExtension, setFileExtension] = useState("")
     const [newFolderName, setNewFolderName] = useState(props.folder)
     const type = props.type
     const folder = props.folder
     const isFolder = type == "folder"
+
+    useEffect(() => {
+        if (!isFolder) {
+            var extension, fileName
+            var fileArr = props.name.split(".")
+            if (fileArr.length > 1) {
+                extension = "."+fileArr.pop()
+                fileName = fileArr.join(".")
+                console.log({extension, fileName})
+            } else {
+                fileName = props.name
+            }
+            setNewFileName(fileName)
+            setFileExtension(extension)
+        }
+    }, [])
     // console.log(fileStore)
     // apiStore.GetFiles()
     const handleClick = (e) => {
@@ -172,7 +189,7 @@ export default function Index(props) {
                 <InputGroup>
                     <FormControl placeholder="New Name" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)}  />
                     <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">{"."+props.name.split(".")[1]}</InputGroup.Text>
+                        <InputGroup.Text id="basic-addon2">{fileExtension}</InputGroup.Text>
                     </InputGroup.Append>
                 </InputGroup>
             </Modal.Body>
