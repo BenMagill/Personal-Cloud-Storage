@@ -21,7 +21,8 @@ export default function Login() {
         e.preventDefault()
     }
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        if (e) e.preventDefault()
         apiStore.LoginRequest(username, password)
     }
     return (
@@ -36,7 +37,7 @@ export default function Login() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" placeholder="Enter Password here:" value={password} onChange={onPasswordChange}/>
                 </Form.Group>
-                <Button variant="primary" type="submit" onSubmut={onSubmit} onClick={onSubmit}>
+                <Button variant="primary" type="submit" onSubmit={onSubmit} onClick={onSubmit}>
                     Login
                 </Button>
             </Form>
