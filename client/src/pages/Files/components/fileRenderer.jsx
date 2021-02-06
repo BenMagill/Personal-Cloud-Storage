@@ -51,6 +51,7 @@ export default function FileRenderer() {
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Size</th>
                     <th>Date</th>
                     <th className="filesInfo">Info</th>
                 </tr>

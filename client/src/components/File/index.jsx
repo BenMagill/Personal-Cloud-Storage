@@ -3,6 +3,7 @@ import {Dropdown, Modal, Button, FormControl, InputGroup} from "react-bootstrap"
 import {FileContext} from "../../store/FileStore"
 import "./index.css"
 import DateHandler from "../../DateHandler"
+import BytesToSize from "../../BytesToSize"
 import {ApiContext} from "../../store/ApiStore"
 
 export default function Index(props) {
@@ -116,6 +117,9 @@ export default function Index(props) {
                 <td className="test">
                     --
                 </td>
+                <td className="test">
+                    --
+                </td>
                 <td>
                     <Dropdown>
                         <Dropdown.Toggle>
@@ -152,6 +156,9 @@ export default function Index(props) {
                 <tr onClick={fileClick}>
                     <td>
                         {props.name}
+                    </td>
+                    <td>
+                        {BytesToSize(props.data.Size)}
                     </td>
                     <td>
                         {DateHandler(props.data.LastModified)}
