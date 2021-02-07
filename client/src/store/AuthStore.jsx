@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 export const AuthContext = React.createContext()
 
 export function AuthProvider(props){
-    const [loggedIn, setLoggedInInt] = useState(sessionStorage.getItem("loggedIn") || false)
+    const [loggedIn, setLoggedInInt] = useState(sessionStorage.getItem("loggedIn")==="true" || false)
     const [apiKey, setApiKeyInt] = useState(sessionStorage.getItem("apiKey") || "")
 
     const [userData, setUserDataInt] = useState(JSON.parse(sessionStorage.getItem("userData")) || {})
