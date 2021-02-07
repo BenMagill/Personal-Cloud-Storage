@@ -20,6 +20,7 @@ function App() {
                             <Route path="/login" component={LoginPage} />
                             <Route path="/files" component={FilesPage} />
                             <Route path="/recent" component={RecentPage} />
+                            <Route path="/search/:term" component={SearchPage} />
                             <Route path="/search" component={SearchPage} />
                         </Switch>
                     </div>

@@ -17,10 +17,7 @@ export default withRouter(function Index(props) {
         if (e) e.preventDefault()
         console.log(searchTerm)
         props.history.push({
-            pathname: "/search",
-            data: {
-                searchTerm
-            }
+            pathname: "/search/"+searchTerm,
         })
     }
 
