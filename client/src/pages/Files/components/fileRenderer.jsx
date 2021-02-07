@@ -4,6 +4,7 @@ import {AuthContext} from "../../../store/AuthStore"
 import {FileContext} from "../../../store/FileStore"   
 import { ApiContext } from '../../../store/ApiStore'
 import File from "../../../components/File"
+import FilesTable from "../../../components/filesTable"
 
 export default function FileRenderer() {
     const authStore = useContext(AuthContext)
@@ -47,17 +48,8 @@ export default function FileRenderer() {
     console.log(files)
 
     return (
-        <Table hover>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Date</th>
-                    <th className="filesInfo">Info</th>
-                </tr>
-            </thead>
-            <tbody>
 
+        <FilesTable>
                 {
                     fileStore.folders.length == 0 ? null : <File type="folder" folder=".."/>
                 }
@@ -75,8 +67,6 @@ export default function FileRenderer() {
 
                     })
                 }
-        
-            </tbody>
-        </Table>
+        </FilesTable>
     )
 }
