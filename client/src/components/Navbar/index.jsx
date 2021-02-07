@@ -1,17 +1,28 @@
-import React, {useContext} from 'react'
-import {Navbar} from "react-bootstrap"
-import {Link} from "react-router-dom"
+import React, {useContext, useState} from 'react'
+import {Navbar, Form, FormControl, Button} from "react-bootstrap"
+import {Link, withRouter} from "react-router-dom"
 import { AuthContext } from '../../store/AuthStore'
 import "./index.css"
 
-export default function Index() {
+export default withRouter(function Index(props) {
     const Auth = useContext(AuthContext)
-
+    const [searchTerm, setSearchTerm] = useState("")
+    const isSearchPage = props.location.pathname === "/search"
     const handleLogout = () => {
         Auth.setLoggedIn(false)
         Auth.setUserData({})
     }
 
+    const handleSearch = (e) => {
+        if (e) e.preventDefault()
+        console.log(searchTerm)
+        props.history.push({
+            pathname: "/search",
+            data: {
+                searchTerm
+            }
+        })
+    }
 
     return (
         <div>
@@ -23,7 +34,12 @@ export default function Index() {
                         <Link className="navbarLink" to="/recent">Recent</Link>
                     </div>
 
-                    <div>{/* Search goes here */}</div>
+                    <div>
+                        <Form inline onSubmit={handleSearch}>
+                            <FormControl placeholder="Search..." value={searchTerm} onChange={e=>setSearchTerm(e.target.value)} />
+                            <Button type="submit" >Go</Button>
+                        </Form>
+                    </div>
 
                     <div>
                         <Link className="navbarLink" onClick={handleLogout}>Logout</Link>
@@ -33,4 +49,4 @@ export default function Index() {
             </Navbar>
         </div>
     )
-}
+})

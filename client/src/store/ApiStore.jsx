@@ -107,6 +107,12 @@ export function ApiProvider(props){
         })
     }
 
+    const Search = (searchTerm, cb) => {
+        ApiRequest("/api/files/search?searchTerm="+searchTerm, "GET", null, res => {
+            cb(res)
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
@@ -119,7 +125,8 @@ export function ApiProvider(props){
                 CreateFolder,
                 DeleteFolder,
                 GetRecents,
-                RenameFolder
+                RenameFolder,
+                Search
             }}
         >
             {props.children}
