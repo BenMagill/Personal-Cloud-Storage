@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {Modal, Button, FormControl} from "react-bootstrap"
+import {Modal, Button, FormControl, ProgressBar, Spinner} from "react-bootstrap"
 import Redirect from "react-router-dom/Redirect"
 import {AuthContext} from "../../../../../store/AuthStore"
 import {ApiContext} from "../../../../../store/ApiStore"
@@ -12,13 +12,22 @@ export default function UploadModal(props) {
     const apiStore = useContext(ApiContext)
 
     const [filepath, setFilepath] = useState({})
-    
+    const [progress, setProgress] = useState(0)
+    const [isUploading, setIsUploading] = useState(false)
+    const [uploadStage, setUploadStage] = useState(1) // 1 = uploading file, 2 = saving file 
+    const [isDone, setDone] = useState(false)
+
     const onFileChange = (event) => {
         setFilepath(event.target.files[0])
         // console.log(event.target.files)
     }
 
     const onClickHandler = () => {
+        setIsUploading(true)
+        setDone(false)
+        setProgress(0)
+        setUploadStage(1)
+
         const data = new FormData() 
         if (fileStore.folders.length == 0) {
             data.append("path", "")
@@ -26,12 +35,23 @@ export default function UploadModal(props) {
             data.append('path', fileStore.folders.join("/")+"/")
         }
         data.append('file', filepath)
-        axios.post("/api/files/item", data, {headers: {'content-type': 'multipart/form-data'}}, {
-            onUploadProgress: ProgressEvent => {
-            },
-        })
+
+
+        axios.post("/api/files/item", data, {headers: {'content-type': 'multipart/form-data'}, onUploadProgress: ProgressEvent => {
+            var percentCompleted = Math.round((ProgressEvent.loaded * 100) / ProgressEvent.total)
+            console.log(ProgressEvent)
+            if (percentCompleted == 100) {
+                setUploadStage(2)
+                setProgress(0)
+            } else {
+                setProgress(percentCompleted)
+            }
+        }})
+        // TODO get saving progress and show it
             .then(res => { // then print response status
                 console.log('upload success')
+                setProgress(100)
+                setDone(true)
                 apiStore.GetFiles()
             
             // Needs to close or show a message
@@ -49,6 +69,17 @@ export default function UploadModal(props) {
             </Modal.Header>
             <Modal.Body>
                 <FormControl type="file" name="" id="" onChange={onFileChange} />
+                {isUploading? 
+                <div style={{marginTop: "10px"}}>
+                    {isDone?"File uploaded!":
+                    <div style={{display:"inline-flex"}}>
+                      <Spinner animation="border" variant="primary" />
+                      <p style={{margin: "auto 10px"}}>{uploadStage==2?"Saving file in storage":"Uploading file to server"}</p>
+                    </div>
+                    }
+                    <ProgressBar now={progress} label={`${progress}%`}/>
+                </div>
+                :null}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={props.close}>Close</Button>
