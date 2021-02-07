@@ -25,4 +25,6 @@ router.post("/folder/delete", checkAuth, FileEndpoints.deleteFolder)
 
 router.get("/recent", checkAuth, FileEndpoints.recent)
 
+router.get("/search", checkAuth, FileEndpoints.search)
+
 module.exports = router

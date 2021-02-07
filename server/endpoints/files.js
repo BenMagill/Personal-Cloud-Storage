@@ -206,3 +206,21 @@ exports.recent = (req, res, next) => {
         }
     })
 }
+
+exports.search = (req, res, next) => {
+    var searchTerm = req.query.searchTerm
+    var params = {Bucket: process.env.DB_BUCKET, MaxKeys: 1000}
+    s3.listObjects(params, function(err, data) {
+        if (err) {
+            console.log(err)
+            res.status(500).json({message: "ERROR"})
+        } else {
+            // console.log(data.Contents)
+            res.status(200).json(data.Contents.filter(item => {
+                const split = item.Key.split("/")
+                const fileName = split[split.length-1]
+                return fileName.includes(searchTerm)
+            }))
+        }
+    })
+}
