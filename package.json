@@ -19,6 +19,9 @@
   },
   "homepage": "https://gitlab.com/ak8792lol/personal-cloud-storage#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "aws-sdk": "^2.713.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",

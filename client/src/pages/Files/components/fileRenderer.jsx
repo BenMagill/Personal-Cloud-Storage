@@ -11,6 +11,8 @@ export default function FileRenderer() {
     const fileStore = useContext(FileContext)
     const apiStore = useContext(ApiContext)
 
+    const [current, setCurrent] = useState({})
+
     useEffect(() => {
         apiStore.GetFiles()
         return () => {
@@ -45,11 +47,39 @@ export default function FileRenderer() {
             }
         }
     }
-    console.log(files)
+    console.log(current)
 
+    if (current.name === "size") {
+        files.sort((a, b) => {
+            if (a.Size > b.Size) return 1
+            if (a.Size < b.Size) return -1
+            return 0
+        })
+        if (current.type === "d") files.reverse()
+    } else if (current.name === "name") {
+        files.sort((a, b) => {
+            var _a = a.Key.split("/")
+            var _b = b.Key.split("/")
+            a = _a[_a.length-1]
+            b = _b[_b.length-1]
+            if (a > b) return 1
+            if (a < b) return -1
+            return 0
+        })
+        if (current.type === "d") files.reverse()
+    } else if (current.name === "date") {
+        files.sort((a, b) => {
+            if (a.LastModified > b.LastModified) return 1
+            if (a.LastModified < b.LastModified) return -1
+            return 0
+        })
+        if (current.type === "d") files.reverse()
+
+    }
+ 
     return (
 
-        <FilesTable>
+        <FilesTable sortable setCurrent={setCurrent}>
                 {
                     fileStore.folders.length == 0 ? null : <File type="folder" folder=".."/>
                 }
