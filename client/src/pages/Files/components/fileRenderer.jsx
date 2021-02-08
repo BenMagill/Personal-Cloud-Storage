@@ -67,6 +67,14 @@ export default function FileRenderer() {
             return 0
         })
         if (current.type === "d") files.reverse()
+        folders.sort((a, b) => {
+            a = a.toLowerCase()
+            b = b.toLowerCase()
+            if (a > b) return 1
+            if (a < b) return -1
+            return 0
+        })
+        if (current.type === "d") folders.reverse()
     } else if (current.name === "date") {
         files.sort((a, b) => {
             if (a.LastModified > b.LastModified) return 1
