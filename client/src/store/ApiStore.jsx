@@ -31,7 +31,6 @@ export function ApiProvider(props){
                     auth.setLoggedIn(true)
                     cb(res)
                 }
-                cb(res)
             })
     }
 
