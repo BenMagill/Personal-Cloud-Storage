@@ -3,12 +3,12 @@ var fs = require("fs")
 var path = require("path")
 var s3Zip = require("s3-zip")
 // var S3Zipper = require("aws-s3-zipper")
-const { response } = require('express')
 
 var ep = new AWS.Endpoint('s3.us-west-000.backblazeb2.com')
 var s3 = new AWS.S3({endpoint: ep})
 const Bucket = process.env.DB_BUCKET
 
+const hiddenFiles = [".preferences"]
 // var zipper = new S3Zipper({
 //     endpoint: "s3.us-west-000.backblazeb2.com",
 //     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -16,6 +16,12 @@ const Bucket = process.env.DB_BUCKET
 //     region: "us-west-000",
 //     bucket: process.env.DB_BUCKET
 // })
+
+const filterFiles = (files) => {
+    return files.filter(file => {
+        return !hiddenFiles.includes(file.Key)
+    })
+}
 
 exports.all = (req, res, next) => {
     // Get all objects (files) from the bucket
@@ -25,8 +31,8 @@ exports.all = (req, res, next) => {
             console.log(err)
             res.status(500).json({message: "ERROR"})
         } else {
-            // console.log(data.Contents)
-            res.status(200).json({data})
+            filterFiles(data.Contents)
+            res.status(200).json({data: {...data, Contents: filterFiles(data.Contents)}})
         }
     })
 }
@@ -73,6 +79,7 @@ exports.readFolder = (req, res, next) => {
 
 exports.write = (req, res, next) => {
     var folderPath = req.body.path
+    if (hiddenFiles.includes(req.file.originalname)) return res.status(500).json({success: false, message: "Can't overwrite application files"})
     var params = {Bucket: process.env.DB_BUCKET, Body: fs.createReadStream(req.file.path), Key: req.body.path+req.file.originalname}
     s3.upload(params, (err, data) => {
         if (err) {
@@ -103,9 +110,10 @@ const rename = async (oldName, newName, cb) => {
         })
     })
 }
-exports.rename = (req, res, next) => {
+exports.rename = (req, res, next) => {    
     var oldName = req.body.oldName
     var newName = req.body.newName
+    if (hiddenFiles.includes(newName) || hiddenFiles.includes(oldName)) return res.status(500).json({success: false, message: "Can't change name to or from application files"})
     rename(oldName, newName, success => {
         if (success) res.json({success: true})
         else res.json({success: false})
@@ -138,6 +146,7 @@ exports.renameFolder = (req, res, next) => {
 
 exports.deleteFile = (req, res, next) => {
     var name = req.body.name
+    if (hiddenFiles.includes(name)) return res.status(500).json({message: "Can't delete application files"})
     s3.deleteObject({Bucket:process.env.DB_BUCKET, Key: name}, (err, data) => {
         if (err) {
             console.log(err)
@@ -194,7 +203,7 @@ exports.recent = (req, res, next) => {
             res.status(500).json({message: "ERROR"})
         } else {
             // console.log(data.Contents)
-            res.status(200).json(data.Contents.sort((curr,  next) => {
+            res.status(200).json(filterFiles(data.Contents).sort((curr,  next) => {
                 if (curr.LastModified < next.LastModified) {
                     return -1
                 } else if (curr.LastModified > next.LastModified) {
@@ -216,7 +225,7 @@ exports.search = (req, res, next) => {
             res.status(500).json({message: "ERROR"})
         } else {
             // console.log(data.Contents)
-            res.status(200).json(data.Contents.filter(item => {
+            res.status(200).json(filterFiles(data.Contents).filter(item => {
                 const split = item.Key.split("/")
                 const fileName = split[split.length-1]
                 return fileName.includes(searchTerm)
