@@ -3,9 +3,9 @@ const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const cookies = require("cookie-parser")
 const path = require("path")
-
 const UserRoutes = require("./routes/user")
 const FileRoutes = require("./routes/files")
+const SettingsRoutes = require("./routes/settings")
 
 const app = express()
 
@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 // Handles the api routes used
 app.use("/api/user", UserRoutes)
 app.use("/api/files", FileRoutes)
+app.use("/api/settings", SettingsRoutes)
 
 // If the uri is not in the build files or api routes just send the react file
 // This is useful when haveing "single page" apps where the client handles pages
