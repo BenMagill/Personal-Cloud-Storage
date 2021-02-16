@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
 import {Dropdown, Modal, Button, FormControl, InputGroup} from "react-bootstrap"
 import {FileContext} from "../../store/FileStore"
+import {SettingsContext} from "../../store/SettingsStore"
 import "./index.css"
 import DateHandler from "../../DateHandler"
 import BytesToSize from "../../BytesToSize"
@@ -9,10 +10,11 @@ import {ApiContext} from "../../store/ApiStore"
 export default function Index(props) {
     const apiStore = useContext(ApiContext)
     const fileStore = useContext(FileContext)
+    const {settings} = useContext(SettingsContext)
     const [renameModal, setRenameModal] = useState(false)
     const [renameFolderModal, setRenameFolderModal] = useState(false)
     const [newFileName, setNewFileName] = useState("")
-    const [fileExtension, setFileExtension] = useState("")
+    const [fileExtension, setFileExtension] = useState(null)
     const [newFolderName, setNewFolderName] = useState(props.folder)
     const type = props.type
     const folder = props.folder
@@ -20,17 +22,21 @@ export default function Index(props) {
 
     useEffect(() => {
         if (!isFolder) {
-            var extension, fileName
-            var fileArr = props.name.split(".")
-            if (fileArr.length > 1) {
-                extension = "."+fileArr.pop()
-                fileName = fileArr.join(".")
-                console.log({extension, fileName})
+            if (!settings.changeFileExtension) {
+                var extension, fileName
+                var fileArr = props.name.split(".")
+                if (fileArr.length > 1) {
+                    extension = "."+fileArr.pop()
+                    fileName = fileArr.join(".")
+                    console.log({extension, fileName})
+                } else {
+                    fileName = props.name
+                }
+                setNewFileName(fileName)
+                setFileExtension(extension)
             } else {
-                fileName = props.name
+                setNewFileName(props.name)
             }
-            setNewFileName(fileName)
-            setFileExtension(extension)
         }
     }, [])
     // console.log(fileStore)
@@ -76,10 +82,10 @@ export default function Index(props) {
         // Open file rename modal
         var newName, oldName
         if (fileStore.folders.length == 0) {
-            newName = newFileName+"."+props.name.split(".")[1]
+            newName = newFileName+"."+(fileExtension?fileExtension:"")
             oldName = props.name
         } else {
-            newName = fileStore.folders.join("/")+"/"+newFileName+"."+props.name.split(".")[1]
+            newName = fileStore.folders.join("/")+"/"+newFileName+"."+(fileExtension?fileExtension:"")
             oldName = fileStore.folders.join("/")+"/"+props.name
         }
         console.log({newName, oldName})
@@ -188,9 +194,11 @@ export default function Index(props) {
             <Modal.Body>
                 <InputGroup>
                     <FormControl placeholder="New Name" value={newFileName} onChange={(e)=>setNewFileName(e.target.value)}  />
-                    <InputGroup.Append>
-                        <InputGroup.Text id="basic-addon2">{fileExtension}</InputGroup.Text>
-                    </InputGroup.Append>
+                    {fileExtension?
+                        <InputGroup.Append>
+                            <InputGroup.Text id="basic-addon2">{fileExtension}</InputGroup.Text>
+                        </InputGroup.Append>
+                    :null}
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>
