@@ -112,6 +112,25 @@ export function ApiProvider(props){
         })
     }
 
+    const GetSettings = (cb) => {
+        ApiRequest("/api/settings/", "GET", null, res => {
+            if (res.error) console.log(res)
+            cb(res.settings)
+        })
+    }
+
+    const UpdateSettings = (settings, cb) => {
+        ApiRequest("/api/settings/update", "POST", settings, res => {
+            cb(res)
+        })
+    }
+
+    const ResetSettings = (cb) => {
+        ApiRequest("/api/settings/reset", "POST", null, res => {
+            cb(res.settings, res.success)
+        })
+    }
+
     return (
         <ApiContext.Provider
             value={{
@@ -125,7 +144,10 @@ export function ApiProvider(props){
                 DeleteFolder,
                 GetRecents,
                 RenameFolder,
-                Search
+                Search,
+                GetSettings,
+                UpdateSettings,
+                ResetSettings,
             }}
         >
             {props.children}

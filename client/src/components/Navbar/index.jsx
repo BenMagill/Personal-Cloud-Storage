@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Navbar, Form, FormControl, Button} from "react-bootstrap"
 import {Link, withRouter} from "react-router-dom"
 import { AuthContext } from '../../store/AuthStore'
@@ -8,6 +8,7 @@ export default withRouter(function Index(props) {
     const Auth = useContext(AuthContext)
     const [searchTerm, setSearchTerm] = useState("")
     const isSearchPage = props.location.pathname === "/search"
+
     const handleLogout = () => {
         Auth.setLoggedIn(false)
         Auth.setUserData({})
@@ -29,6 +30,7 @@ export default withRouter(function Index(props) {
                     <div>
                         <Link className="navbarLink" to="/files">Files</Link>
                         <Link className="navbarLink" to="/recent">Recent</Link>
+                        <Link className="navbarLink" to="/admin">Admin</Link>
                     </div>
 
                     <div>
