@@ -84,7 +84,7 @@ exports.reset = (req, res, next) => {
         }
         if (data) {
             console.log(data)
-            res.status(200).json({success: true})
+            res.status(200).json({success: true, settings: defaultPrefs})
         }
     })
 }
@@ -128,7 +128,9 @@ exports.import = (req, res, next) => {
 
 exports.update = (req, res, next) => {
     const toUpdate = req.body
+    console.log("gettings")
     getSettings((err, settings) => {
+        console.log("got")
         if (settings) {
             for (const key in toUpdate) {
                 if (Object.hasOwnProperty.call(toUpdate, key)) {
@@ -138,16 +140,18 @@ exports.update = (req, res, next) => {
                     }
                 }
             }
-        saveSettings(settings, (err, response => {
-            if (err) {
-                console.log(err)
-                res.status(500).json({success: false, error: err})
-            }
-            if (data) {
-                console.log(data)
-                res.status(200).json({success: true})
-            }
-        }))
+            console.log("saving")
+            saveSettings(settings, (err, data) => {
+                console.log("saved")
+                if (err) {
+                    console.log(err)
+                    res.status(500).json({success: false, error: err})
+                }
+                if (data) {
+                    console.log(data)
+                    res.status(200).json({success: true})
+                }
+            })
         } else {
             res.status(500).json({message: "File can't be parsed. Can't update"})
         }
