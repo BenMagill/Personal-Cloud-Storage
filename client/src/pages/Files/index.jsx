@@ -36,7 +36,7 @@ export default function Index() {
           })
     }
     return (
-        <div className="fileList">
+        <div className="fileList main">
             <Sidebar />
 
             <FileRenderer />

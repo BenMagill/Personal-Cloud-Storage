@@ -14,18 +14,16 @@ function App() {
         <div className="app">
             <BrowserRouter>
                 <Navbar />
-                <div className="main">
-                    <div className="body">
-                        <Switch>
-                            <Route path="/" exact component={WelcomePage} />
-                            <Route path="/login" component={LoginPage} />
-                            <Route path="/files" component={FilesPage} />
-                            <Route path="/recent" component={RecentPage} />
-                            <Route path="/settings" component={SettingsPage} />
-                            <Route path="/search/:term" component={SearchPage} />
-                            <Route path="/search" component={SearchPage} />
-                        </Switch>
-                    </div>
+                <div className="body">
+                    <Switch>
+                        <Route path="/" exact component={WelcomePage} />
+                        <Route path="/login" component={LoginPage} />
+                        <Route path="/files" component={FilesPage} />
+                        <Route path="/recent" component={RecentPage} />
+                        <Route path="/settings" component={SettingsPage} />
+                        <Route path="/search/:term" component={SearchPage} />
+                        <Route path="/search" component={SearchPage} />
+                    </Switch>
                 </div>
             </BrowserRouter>
         </div>
