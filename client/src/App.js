@@ -6,7 +6,7 @@ import FilesPage from "./pages/Files"
 import RecentPage from "./pages/Recent"
 import SearchPage from "./pages/Search"
 import LoginPage from "./pages/Login"
-import AdminPage from "./pages/Panel"
+import SettingsPage from "./pages/Settings"
 import './App.css';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
                             <Route path="/login" component={LoginPage} />
                             <Route path="/files" component={FilesPage} />
                             <Route path="/recent" component={RecentPage} />
-                            <Route path="/admin" component={AdminPage} />
+                            <Route path="/settings" component={SettingsPage} />
                             <Route path="/search/:term" component={SearchPage} />
                             <Route path="/search" component={SearchPage} />
                         </Switch>

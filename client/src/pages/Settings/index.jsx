@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {SettingsContext} from "../../../store/SettingsStore"
+import {SettingsContext} from "../../store/SettingsStore"
 import {Form, Button} from "react-bootstrap"
 
 export default function Settings() {

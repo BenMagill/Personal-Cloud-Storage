@@ -30,7 +30,6 @@ export default withRouter(function Index(props) {
                     <div>
                         <Link className="navbarLink" to="/files">Files</Link>
                         <Link className="navbarLink" to="/recent">Recent</Link>
-                        <Link className="navbarLink" to="/admin">Admin</Link>
                     </div>
 
                     <div>
@@ -41,6 +40,7 @@ export default withRouter(function Index(props) {
                     </div>
 
                     <div>
+                        <Link className="navbarLink" to="/settings">Settings</Link>
                         <Link className="navbarLink" onClick={handleLogout}>Logout</Link>
                     </div>
                 </div>
