@@ -7,8 +7,14 @@ export const SettingsContext = React.createContext()
 export function SettingsProvider(props){
     const Api = useContext(ApiContext)
     const Auth = useContext(AuthContext)
-    const [settings, setSettings] = useState({})
+    const [settings, _setSettings] = useState(JSON.parse(sessionStorage.getItem("settings")) || {})
     const [loaded, setLoaded] = useState(false)
+
+    const setSettings = (data) => {
+        sessionStorage.setItem("settings", JSON.stringify(data))
+        _setSettings(data)
+    }
+
     useEffect(() => {
         if (Auth.loggedIn) {
             Api.GetSettings(settings => {
