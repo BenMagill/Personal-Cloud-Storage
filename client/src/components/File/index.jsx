@@ -6,6 +6,7 @@ import "./index.css"
 import DateHandler from "../../DateHandler"
 import BytesToSize from "../../BytesToSize"
 import {ApiContext} from "../../store/ApiStore"
+import {toast} from "react-toastify"
 
 export default function Index(props) {
     const apiStore = useContext(ApiContext)
@@ -92,6 +93,7 @@ export default function Index(props) {
         apiStore.RenameFile(oldName, newName, () => {
             apiStore.GetFiles()
             setRenameModal(false)
+            toast.success("Renamed file", {autoClose: 5000})
         })
     }
 
@@ -110,6 +112,7 @@ export default function Index(props) {
             setTimeout(() => {
                 setRenameFolderModal(false)
                 apiStore.GetFiles()
+                toast.success("Renamed folder", {autoClose: 5000})
             }, 2000);
         })
     }
