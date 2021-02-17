@@ -85,7 +85,7 @@ export default function Index(props) {
             newName = newFileName+"."+(fileExtension?fileExtension:"")
             oldName = props.name
         } else {
-            newName = fileStore.folders.join("/")+"/"+newFileName+"."+(fileExtension?fileExtension:"")
+            newName = fileStore.folders.join("/")+"/"+newFileName+(fileExtension?"."+fileExtension:"")
             oldName = fileStore.folders.join("/")+"/"+props.name
         }
         console.log({newName, oldName})
