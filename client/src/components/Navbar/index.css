@@ -1,3 +1,10 @@
 .navbarLink {
     margin-right: 5px;
+    font-size: 20px;
+    color: #585858;
+}
+
+.linkText {
+    display: flex;
+    align-items: center;
 }

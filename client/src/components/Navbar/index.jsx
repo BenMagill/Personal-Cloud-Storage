@@ -27,7 +27,7 @@ export default withRouter(function Index(props) {
             <Navbar bg="light" expand="lg">
                 {Auth.loggedIn? 
                 <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
-                    <div>
+                    <div className="linkText">
                         <Link className="navbarLink" to="/files">Files</Link>
                         <Link className="navbarLink" to="/recent">Recent</Link>
                     </div>
@@ -39,7 +39,7 @@ export default withRouter(function Index(props) {
                         </Form>
                     </div>
 
-                    <div>
+                    <div className="linkText">
                         <Link className="navbarLink" to="/settings">Settings</Link>
                         <Link className="navbarLink" onClick={handleLogout}>Logout</Link>
                     </div>
