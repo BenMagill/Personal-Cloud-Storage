@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {SettingsContext} from "../../store/SettingsStore"
 import {AuthContext} from "../../store/AuthStore"
 import {Redirect} from "react-router-dom"
 import {Form, Button, Modal, FormControl} from "react-bootstrap"
-import axios from "axios"
 import "./index.css"
 
 export default function Settings() {
     const auth = useContext(AuthContext)
-    const {settings, updateSettings, resetSettings, loaded, reload} = useContext(SettingsContext)
+    const {settings, updateSettings, resetSettings, loaded, importSettings} = useContext(SettingsContext)
     const [editExtension, setEditExtension] = useState(settings.changeFileExtension)
     const [showModal, setShowModal] = useState(false)
     const [filepath, setFilepath] = useState({})
@@ -38,16 +37,8 @@ export default function Settings() {
     const handleUpload = () => {
         const data = new FormData()
         data.append("file", filepath)
-        
-        axios.post("/api/settings/import", data, {headers: {"content-type": "multipart/form-data"}})
-            .then(res => {
-                console.log(res)
-                console.log("success")
-                reload()
-            })
-            .catch(err => {
-                console.log("fail")
-            })
+        setShowModal(false)
+        importSettings(data)
     }
 
     return (

@@ -1,12 +1,14 @@
 import React from 'react';
 import Navbar from "./components/Navbar"
 import {BrowserRouter, Switch, Route} from "react-router-dom"
+import { ToastContainer } from 'react-toastify'
 import WelcomePage from "./pages/Welcome"
 import FilesPage from "./pages/Files"
 import RecentPage from "./pages/Recent"
 import SearchPage from "./pages/Search"
 import LoginPage from "./pages/Login"
 import SettingsPage from "./pages/Settings"
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
 
 function App() {
@@ -26,6 +28,13 @@ function App() {
                     </Switch>
                 </div>
             </BrowserRouter>
+            <ToastContainer 
+                position="bottom-right"
+                // autoClose={5000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                pauseOnFocusLoss
+                pauseOnHover/>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react'
 import {AuthContext} from './AuthStore'
 import {FileContext} from "./FileStore"
+import {toast} from "react-toastify"
 
 export const ApiContext = React.createContext()
 
@@ -44,6 +45,7 @@ export function ApiProvider(props){
                 return true
             } else {
                 auth.setLoggedIn(false)
+                toast.dismiss()
                 return false
             }
         })

@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {ApiContext} from "./ApiStore"
 import {AuthContext} from "./AuthStore"
+import {toast} from "react-toastify"
+import axios from "axios"
 
 export const SettingsContext = React.createContext()
 
@@ -28,18 +30,39 @@ export function SettingsProvider(props){
         })
     }
 
-    const updateSettings = (newSettingsIn) => {
+    const updateSettings = (newSettingsIn, cb) => {
         const newSettings = {...settings, ...newSettingsIn}
         setSettings(newSettings)
+        var toastId = toast.info("Saving...")
         Api.UpdateSettings(newSettings, res => {
             console.log(res)
+            toast.update(toastId, {render: "Updated settings", type: "success", autoClose: 5000})
+            if (cb) cb()
         })
     }
 
-    const resetSettings = () => {
+    const resetSettings = (cb) => {
+        var toastId = toast.info("Resetting...")
         Api.ResetSettings(res => {
             setSettings(res)
+            toast.update(toastId, {render: "Reset all settings", type: "success", autoClose: 5000})
+            if (cb) cb()
         })
+    }
+
+    const importSettings = (data) => {
+        var toastId = toast.info("Uploading...")
+        axios.post("/api/settings/import", data, {headers: {"content-type": "multipart/form-data"}})
+            .then(res => {
+                console.log(res)
+                console.log("success")
+                toast.update(toastId, {render: "Settings uploaded", type: "success"})
+                reload()
+            })
+            .catch(err => {
+                console.log("fail")
+                toast.update(toastId, {render: "Error uploading", type: "error"})
+            })
     }
 
     return (
@@ -49,7 +72,8 @@ export function SettingsProvider(props){
                 settings,
                 updateSettings,
                 resetSettings,
-                loaded
+                loaded,
+                importSettings
             }}
         >
             {props.children}
