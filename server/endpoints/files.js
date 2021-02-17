@@ -103,7 +103,7 @@ const rename = async (oldName, newName, cb) => {
         s3.deleteObject({Bucket: process.env.DB_BUCKET, Key: oldName}, (err, data) => {
             if (err) {
                 console.log(err)
-                res.json({success: false})
+                // res.json({success: false})
             }
             if (cb) cb(true)
             // res.json({success: true})
