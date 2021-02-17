@@ -17,12 +17,16 @@ export function SettingsProvider(props){
 
     useEffect(() => {
         if (Auth.loggedIn) {
-            Api.GetSettings(settings => {
-                setSettings(settings)
-                setLoaded(true)
-            })    
+            reload()
         }
     }, [Auth.loggedIn])
+
+    const reload = () => {
+        Api.GetSettings(settings => {
+            setSettings(settings)
+            setLoaded(true)
+        })
+    }
 
     const updateSettings = (newSettingsIn) => {
         const newSettings = {...settings, ...newSettingsIn}
@@ -41,6 +45,7 @@ export function SettingsProvider(props){
     return (
         <SettingsContext.Provider
             value = {{
+                reload,
                 settings,
                 updateSettings,
                 resetSettings,
