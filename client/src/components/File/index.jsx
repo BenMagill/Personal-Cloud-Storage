@@ -82,7 +82,7 @@ export default function Index(props) {
         // Open file rename modal
         var newName, oldName
         if (fileStore.folders.length == 0) {
-            newName = newFileName+"."+(fileExtension?fileExtension:"")
+            newName = newFileName+(fileExtension?"."+fileExtension:"")
             oldName = props.name
         } else {
             newName = fileStore.folders.join("/")+"/"+newFileName+(fileExtension?"."+fileExtension:"")
