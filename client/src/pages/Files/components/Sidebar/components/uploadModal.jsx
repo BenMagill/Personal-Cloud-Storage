@@ -1,10 +1,11 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {Modal, Button, FormControl, ProgressBar, Spinner} from "react-bootstrap"
 import Redirect from "react-router-dom/Redirect"
 import {AuthContext} from "../../../../../store/AuthStore"
 import {ApiContext} from "../../../../../store/ApiStore"
 import axios from "axios"
 import {FileContext} from "../../../../../store/FileStore"   
+import {toast} from "react-toastify"
 
 export default function UploadModal(props) {
     const authStore = useContext(AuthContext)
@@ -16,11 +17,19 @@ export default function UploadModal(props) {
     const [isUploading, setIsUploading] = useState(false)
     const [uploadStage, setUploadStage] = useState(1) // 1 = uploading file, 2 = saving file 
     const [isDone, setDone] = useState(false)
-
+    const [toastId, setToastId] = useState("")
     const onFileChange = (event) => {
         setFilepath(event.target.files[0])
         // console.log(event.target.files)
     }
+
+    useEffect(() => {
+        if (!props.show && isUploading && toastId === "") {
+            setToastId(toast.info("Uploading " + filepath.name))
+        } else if (isDone && toastId !== "") {
+            toast.update(toastId, {render: "Uploaded", type:"success", autoClose: 5000})
+        }
+    }, [isUploading, isDone, props.show])
 
     const onClickHandler = () => {
         setIsUploading(true)

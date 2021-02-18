@@ -124,7 +124,9 @@ export default function Index(props) {
         } else {
             filePath = fileStore.folders.join("/") + "/" + props.name
         }
-        apiStore.DeleteFile(filePath)
+        apiStore.DeleteFile(filePath, () => {
+            toast.success("Deleted file", {autoClose: 5000})            
+        })
     }
 
     const handleFolderDelete = () => {
@@ -136,7 +138,9 @@ export default function Index(props) {
         }
         console.log(filePath)
         console.log(props)
-        apiStore.DeleteFolder(filePath)
+        apiStore.DeleteFolder(filePath ,() => {
+            toast.success("Deleted folder", {autoClose: 5000})
+        })
     }
 
     return (

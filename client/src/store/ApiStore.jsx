@@ -76,17 +76,19 @@ export function ApiProvider(props){
         })
     }
 
-    const DeleteFile = (name) => {
+    const DeleteFile = (name, cb) => {
         console.log(name)
         ApiRequest("/api/files/item/delete", "POST", {name}, res => {
             console.log(res)
             GetFiles()
+            if (cb) cb()
         })
     }
 
-    const DeleteFolder = (path) => {
+    const DeleteFolder = (path, cb) => {
         ApiRequest("/api/files/folder/delete", "POST", {path}, res => {
             GetFiles()
+            if (cb) cb()
         })
     }
 
