@@ -5,6 +5,7 @@ import {AuthContext} from "../../../../../store/AuthStore"
 import {ApiContext} from "../../../../../store/ApiStore"
 import axios from "axios"
 import {FileContext} from "../../../../../store/FileStore"   
+import {toast} from "react-toastify"
 
 export default function UploadModal(props) {
     const authStore = useContext(AuthContext)
@@ -18,12 +19,24 @@ export default function UploadModal(props) {
     const [isUploading, setIsUploading] = useState(false)
     const [uploadStage, setUploadStage] = useState(1) // 1 = uploading file, 2 = saving file 
     const [isDone, setDone] = useState(false)
+    const [toastId, setToastId] = useState("")
 
     const onFileChange = (event) => {
         setFilepath(event.target.files)
         setIsUploading(false)
         console.log(event.target.files)
     }
+
+    useEffect(() => {
+        console.log({show: props.show, isDone, isUploading})
+        if (!props.show && isUploading && !isDone && toastId === "") {
+            setToastId(toast.info(`Uploading ${uploadingCount}/${filepath.length}`))
+        } else if (!props.show && toastId !== "" && isUploading && !isDone) {
+            toast.update(toastId, {render: `Uploading ${uploadingCount}/${filepath.length}`, type:"info"})
+        } else if (isDone && toastId !== "") {
+            toast.update(toastId, {render: "Uploaded", type:"success", autoClose: 5000})
+        }
+    }, [isUploading, isDone, props.show, uploadingCount])
 
     const onClickHandler = async () => {
         setIsUploading(true)
@@ -87,8 +100,18 @@ export default function UploadModal(props) {
         setDone(true)
 
     }
+
+    const handleClose = () => {
+        // Reset all data
+        props.close()
+        // setIsUploading(false)
+        // setDone(false)
+        // setProgress(0)
+        // setUploadStage(1)
+    }
+
     return (
-        <Modal show={props.show} onHide={props.close}>
+        <Modal show={props.show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Upload a folder to the current location
@@ -113,7 +136,7 @@ export default function UploadModal(props) {
                 :null}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.close}>Close</Button>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
                 <Button onClick={onClickHandler}>Upload</Button>
             </Modal.Footer>
             {authStore.loggedIn ? "" : <Redirect to="/login" />}

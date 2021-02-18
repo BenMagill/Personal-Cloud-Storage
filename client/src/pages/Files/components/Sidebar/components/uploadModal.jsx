@@ -73,10 +73,10 @@ export default function UploadModal(props) {
     const handleClose = () => {
         // Reset all data
         props.close()
-        setIsUploading(false)
-        setDone(false)
-        setProgress(0)
-        setUploadStage(1)
+        // setIsUploading(false)
+        // setDone(false)
+        // setProgress(0)
+        // setUploadStage(1)
     }
     return (
         <Modal show={props.show} onHide={handleClose}>
