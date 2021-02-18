@@ -24,7 +24,7 @@ export default function UploadModal(props) {
     }
 
     useEffect(() => {
-        if (!props.show && isUploading && toastId === "") {
+        if (!props.show && isUploading && !isDone && toastId === "") {
             setToastId(toast.info("Uploading " + filepath.name))
         } else if (isDone && toastId !== "") {
             toast.update(toastId, {render: "Uploaded", type:"success", autoClose: 5000})
@@ -69,8 +69,17 @@ export default function UploadModal(props) {
               console.log('upload fail')
           })
     }
+
+    const handleClose = () => {
+        // Reset all data
+        props.close()
+        setIsUploading(false)
+        setDone(false)
+        setProgress(0)
+        setUploadStage(1)
+    }
     return (
-        <Modal show={props.show} onHide={props.close}>
+        <Modal show={props.show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Upload a file to the current folder
@@ -91,7 +100,7 @@ export default function UploadModal(props) {
                 :null}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.close}>Close</Button>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
                 <Button onClick={onClickHandler}>Upload</Button>
             </Modal.Footer>
             {authStore.loggedIn ? "" : <Redirect to="/login" />}
