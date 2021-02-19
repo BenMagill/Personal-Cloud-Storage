@@ -12,7 +12,7 @@ export default function UploadModal(props) {
     const fileStore = useContext(FileContext)
     const apiStore = useContext(ApiContext)
 
-    const [filepath, setFilepath] = useState({})
+    const [filepath, setFilepath] = useState()
     const [progress, setProgress] = useState(0)
     const [currentFileName, setCurrentFileName] = useState("")
     const [uploadingCount, setUploadingCount] = useState(0)
@@ -39,6 +39,7 @@ export default function UploadModal(props) {
     }, [isUploading, isDone, props.show, uploadingCount])
 
     const onClickHandler = async () => {
+        if (!filepath) return false
         setIsUploading(true)
         setCurrentFileName("")
         setUploadStage(0)
