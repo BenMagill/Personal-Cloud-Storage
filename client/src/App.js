@@ -30,7 +30,7 @@ function App() {
             </BrowserRouter>
             <ToastContainer 
                 position="bottom-right"
-                // autoClose={5000}
+                autoClose={999000}
                 hideProgressBar={true}
                 newestOnTop={false}
                 pauseOnFocusLoss
