@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faSort, faSortDown, faSortUp} from "@fortawesome/free-solid-svg-icons"
 import Table from "react-bootstrap/Table"
-import { set } from 'mongoose'
+import Spinner from "react-bootstrap/Spinner"
 
 // TODO: finish this off
 /**
@@ -27,18 +27,21 @@ export default function Index(props) {
     }
 
     return (
-        <Table hover>
-            <thead>
-                <tr>
-                    <th id="name" onClick={handleHeaderClick}>Name{sortable?<FontAwesomeIcon icon={state.name?state.name=="a"?faSortUp:faSortDown:faSort} />:null}</th>
-                    <th id="size" onClick={handleHeaderClick}>Size{sortable?<FontAwesomeIcon icon={state.size?state.size=="a"?faSortUp:faSortDown:faSort} />:null}</th>
-                    <th id="date" onClick={handleHeaderClick}>Date{sortable?<FontAwesomeIcon icon={state.date?state.date=="a"?faSortUp:faSortDown:faSort} />:null}</th>
-                    <th className="filesInfo">Info</th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.children}
-            </tbody>
-        </Table>
+        <React.Fragment>
+            <Table hover>
+                <thead>
+                    <tr>
+                        <th id="name" onClick={handleHeaderClick}>Name{sortable?<FontAwesomeIcon icon={state.name?state.name=="a"?faSortUp:faSortDown:faSort} />:null}</th>
+                        <th id="size" onClick={handleHeaderClick}>Size{sortable?<FontAwesomeIcon icon={state.size?state.size=="a"?faSortUp:faSortDown:faSort} />:null}</th>
+                        <th id="date" onClick={handleHeaderClick}>Date{sortable?<FontAwesomeIcon icon={state.date?state.date=="a"?faSortUp:faSortDown:faSort} />:null}</th>
+                        <th className="filesInfo">Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.loaded ? props.children : null}
+                </tbody>
+            </Table>
+            {props.loaded ? null : <div style={{columnSpan: "100", display: "flex", justifyContent: "center", alignItems: "center"}}><Spinner animation="border" variant="primary" /></div>}
+        </React.Fragment>
     )
 }

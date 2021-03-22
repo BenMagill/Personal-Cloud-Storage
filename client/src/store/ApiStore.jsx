@@ -55,11 +55,12 @@ export function ApiProvider(props){
         ApiRequest("/api/user/", "GET", null, res => {})
     }
 
-    const GetFiles = () => {
+    const GetFiles = (cb) => {
         console.log("get all files")
         ApiRequest("/api/files/all", "GET", null, res => {
             console.log(res)
             fileStore.setFileStruct(res.data.Contents)
+            if (cb) cb()
         })
     }
 

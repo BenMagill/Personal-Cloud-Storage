@@ -11,19 +11,18 @@ export default function Index() {
     const apiStore = useContext(ApiContext)
 
     const [recentFiles, setRecentFiles] = useState([])
+    const [loaded, setLoaded] = useState(false)
     useEffect(() => {
         apiStore.GetRecents(res => {
             setRecentFiles(res)
+            setLoaded(true)
         })
-        return () => {
-            
-        }
     }, [""])
     return (
         <div>
             {console.log(recentFiles)}
 
-            <FilesTable>
+            <FilesTable loaded={loaded}>
                 {   recentFiles !== undefined ?
                         recentFiles.map(item => {
                             const itemPath = item.Key.split("/")

@@ -12,6 +12,7 @@ export default function Index(props) {
     const searchTerm = props.match.params.term
     const [loading, setLoading] = useState(true)
     const [files, setFiles] = useState([])
+
     useEffect(()=>{
         setLoading(true)
         Api.Search(searchTerm, result => {
@@ -21,14 +22,14 @@ export default function Index(props) {
     }, [searchTerm])
     return (
         <div>
-            <FilesTable>
-                    {   !loading?files.length !== 0 ?
+            <FilesTable loaded={!loading}>
+                    {   files.length !== 0 ?
                         files.map(item => {
                             const itemPath = item.Key.split("/")
                             return <File type="file" data={item} name={item.Key} key={item.Key}/>
 
                         })
-                        : <p>No files found</p>:<p>Loading...</p> 
+                        : <p>No files found</p>
                     }
             </FilesTable>
             {Auth.loggedIn ? "" : <Redirect to="/login" />}

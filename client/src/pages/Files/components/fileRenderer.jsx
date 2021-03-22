@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react'
-import {Table} from "react-bootstrap"
+import {Table, Spinner} from "react-bootstrap"
 import {AuthContext} from "../../../store/AuthStore"
 import {FileContext} from "../../../store/FileStore"   
 import { ApiContext } from '../../../store/ApiStore'
@@ -12,12 +12,11 @@ export default function FileRenderer() {
     const apiStore = useContext(ApiContext)
 
     const [current, setCurrent] = useState({})
-
+    const [loaded, setLoaded] = useState(false)
     useEffect(() => {
-        apiStore.GetFiles()
-        return () => {
-            
-        }
+        apiStore.GetFiles(()=>{
+            setLoaded(true)            
+        })
     }, [])
 
     var folderFiles = []
@@ -84,10 +83,9 @@ export default function FileRenderer() {
         if (current.type === "d") files.reverse()
 
     }
- 
     return (
 
-        <FilesTable sortable setCurrent={setCurrent}>
+        <FilesTable sortable setCurrent={setCurrent} loaded={loaded}>
                 {
                     fileStore.folders.length == 0 ? null : <File type="folder" folder=".."/>
                 }
