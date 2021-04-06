@@ -2,6 +2,8 @@
 
 A project allowing anyone to setup their own cloud storage solution.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 # Features
 
 Upload files and folders.
