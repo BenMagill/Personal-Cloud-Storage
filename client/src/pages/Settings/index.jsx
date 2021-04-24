@@ -42,7 +42,7 @@ export default function Settings() {
     }
 
     return (
-        <div>
+        <div className="main">
             <div style={{display: "flex", justifyContent: "space-between", padding: "4px"}}>
                 <h2>Settings</h2>
                 <div className="buttonList">

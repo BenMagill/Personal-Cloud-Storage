@@ -14,11 +14,11 @@
     padding: 5px 15px;
 }
 
-.dropdown-toggle::after {
+td>div.dropdown>.dropdown-toggle::after {
     display: none;
 }
 
-.dropdown-toggle {
+td>div.dropdown>.dropdown-toggle {
     color: black;
     background-color: white;
     border: none;
@@ -26,20 +26,23 @@
     padding: 5px 15px;
 }
 
-.dropdown-toggle:hover {
+td>div.dropdown>.dropdown-toggle:hover {
     border: 1px lightskyblue solid;
     margin: 0;
     background-color: white;
     color: black;
 }
 
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+td>div.dropdown>.btn-primary:not(:disabled):not(.disabled).active,
+td>div.dropdown>.btn-primary:not(:disabled):not(.disabled):active,
+td>div.dropdown>.show>.btn-primary.dropdown-toggle {
     color: black;
     background-color: white;
     border-color: white;
 }
 
-.btn-primary.focus, .btn-primary:focus {
+td>div.dropdown>.btn-primary.focus,
+td>div.dropdown>.btn-primary:focus {
     color: black;
     background-color: white;
     border-color: white;

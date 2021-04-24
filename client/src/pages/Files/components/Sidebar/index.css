@@ -1,10 +1,8 @@
-.sidebar {
-    position: absolute;
-    right: 0px;
-    height: 100%;
-    width: 170px;
-    padding-left: 20px;
-    padding-top: 10px;
-    background-color: white;
-    z-index: -1;
+.topbar {
+    margin: 10px;
+    display: inline-flex;
+}
+
+.topbar>button {
+    margin: 0 5px;
 }
