@@ -12,6 +12,7 @@ export default withRouter(function Index(props) {
     const handleLogout = () => {
         Auth.setLoggedIn(false)
         Auth.setUserData({})
+        document.cookie = "Auth=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;"
     }
 
     const handleSearch = (e) => {
@@ -24,9 +25,9 @@ export default withRouter(function Index(props) {
 
     return (
         <div>
+            {Auth.loggedIn? 
             <Navbar bg="light" expand="lg">
-                {Auth.loggedIn? 
-                <div style={{display: "flex", justifyContent: "space-between", width: "100%"}}>
+                <div style={{display: "flex", justifyContent: "space-between", width: "100%", margin: "0 10px"}}>
                     <div className="linkText">
                         <Link className="navbarLink" to="/files">Files</Link>
                         <Link className="navbarLink" to="/recent">Recent</Link>
@@ -44,8 +45,8 @@ export default withRouter(function Index(props) {
                         <Link className="navbarLink" onClick={handleLogout}>Logout</Link>
                     </div>
                 </div>
-                :null}
             </Navbar>
+            :null}
         </div>
     )
 })

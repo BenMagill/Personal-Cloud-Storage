@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faSort, faSortDown, faSortUp} from "@fortawesome/free-solid-svg-icons"
 import Table from "react-bootstrap/Table"
 import Spinner from "react-bootstrap/Spinner"
+import "./index.css"
 
 // TODO: finish this off
 /**
@@ -28,7 +29,7 @@ export default function Index(props) {
 
     return (
         <React.Fragment>
-            <Table hover>
+            <Table hover className="fileTable">
                 <thead>
                     <tr>
                         <th id="name" onClick={handleHeaderClick}>Name{sortable?<FontAwesomeIcon icon={state.name?state.name=="a"?faSortUp:faSortDown:faSort} />:null}</th>

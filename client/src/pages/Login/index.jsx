@@ -3,6 +3,7 @@ import {AuthContext} from "../../store/AuthStore"
 import {ApiContext} from "../../store/ApiStore"
 import {Form, Button} from "react-bootstrap"
 import Redirect from "react-router-dom/Redirect"
+import "./index.css"
 
 export default function Login() {
     const authStore = useContext(AuthContext)
@@ -26,21 +27,21 @@ export default function Login() {
         apiStore.LoginRequest(username, password)
     }
     return (
-        <div>
-            <h1 className="centerText">Login</h1>
-            <Form onSubmit={onSubmit}>
-                <Form.Group controlId="formBasicEText" >
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Username here:" value={username} onChange={onUsernameChange}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicPassword" >
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Enter Password here:" value={password} onChange={onPasswordChange}/>
-                </Form.Group>
-                <Button variant="primary" type="submit" onSubmit={onSubmit} onClick={onSubmit}>
-                    Login
-                </Button>
-            </Form>
+        <div className="loginContainer">
+            <div className="login">
+                <h1 className="loginText">Sign in</h1>
+                <Form onSubmit={onSubmit}>
+                    <Form.Group controlId="formBasicEText" >
+                        <Form.Control type="text" placeholder="Username" value={username} onChange={onUsernameChange}/>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword" >
+                        <Form.Control type="password" placeholder="Password" value={password} onChange={onPasswordChange}/>
+                    </Form.Group>
+                    <Button variant="primary" type="submit" onSubmit={onSubmit} onClick={onSubmit}>
+                        Login
+                    </Button>
+                </Form>
+            </div>
 
             {authStore.loggedIn ? <Redirect to="/" /> : ""}
         </div>
