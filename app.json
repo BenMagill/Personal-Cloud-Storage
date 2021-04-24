@@ -1,0 +1,36 @@
+{
+  "name": "Personal Cloud Storage",
+  "description": "A project allowing anyone to setup their own cloud storage solution.",
+  "repository": "https://github.com/BenMagill/Personal-Cloud-Storage",
+  "website": "https://github.com/BenMagill/Personal-Cloud-Storage",
+  "logo": "",
+  "success_url": "/",
+  "keywords": ["storage", "cloud storage"],
+  "env": {
+    "APP_ENV": "production",
+    "AWS_ACCESS_KEY_ID": {
+      "description": "The AWS Access Key Id.",
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "AWS Secret Access Key.",
+      "required": true
+    },
+    "DB_BUCKET": {
+      "description": "The bucket to store data in.",
+      "required": true
+    },
+    "JWT_KEY": {
+      "description": "Some random string.",
+      "required": true
+    },
+    "NAME": {
+      "description": "The username to login with.",
+      "required": true
+    },
+    "PASSWORD": {
+      "description": "The password to login with.",
+      "required": true
+    }
+  }
+}
