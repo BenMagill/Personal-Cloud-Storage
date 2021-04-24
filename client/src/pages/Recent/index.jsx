@@ -19,7 +19,7 @@ export default function Index() {
         })
     }, [""])
     return (
-        <div>
+        <div className="fileList">
             {console.log(recentFiles)}
 
             <FilesTable loaded={loaded}>
