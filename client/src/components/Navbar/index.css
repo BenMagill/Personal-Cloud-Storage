@@ -1,7 +1,11 @@
 .navbarLink {
     margin-right: 5px;
     font-size: 18px;
-    color: #585858;
+    color: #d8d8d8;
+}
+
+.navbarLink:hover {
+    color: #b9b9b9;
 }
 
 .linkText {

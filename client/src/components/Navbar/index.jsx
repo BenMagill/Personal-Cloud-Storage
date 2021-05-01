@@ -31,8 +31,8 @@ export default withRouter(function Index(props) {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#features">Files</Nav.Link>
-                        <Nav.Link href="#pricing">Recent</Nav.Link>
+                        <Link className="navbarLink" to="/files">Files</Link>
+                        <Link className="navbarLink" to="/recent">Recent</Link>
                     </Nav>
                     <Nav>
                         <Form inline onSubmit={handleSearch}>
@@ -40,9 +40,9 @@ export default withRouter(function Index(props) {
                             <Button type="submit" >Go</Button>
                         </Form>
                     </Nav>
-                    <Nav>
-                        <Nav.Link href="#deets">Settings</Nav.Link>
-                        <Nav.Link href="#memes">Logout</Nav.Link>
+                    <Nav >
+                        <Link className="navbarLink" to="/settings">Settings</Link>
+                        <Link className="navbarLink" onClick={handleLogout}>Logout</Link>
                     </Nav>
                 </Navbar.Collapse>
                 </Navbar>
