@@ -152,7 +152,7 @@ export default function Index(props) {
             <td>
                 {isFolder?"--":BytesToSize(props.data.Size)}
             </td>
-            <td>
+            <td className="desktopOnly">
                 {isFolder?"--":DateHandler(props.data.LastModified)}
             </td>
             <td>

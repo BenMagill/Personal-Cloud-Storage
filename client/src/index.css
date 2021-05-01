@@ -3,3 +3,11 @@
 }
 
 body {}
+
+.desktopOnly {}
+
+@media (max-width: 600px) {
+    .desktopOnly {
+        display: none;
+    }
+}

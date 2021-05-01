@@ -20,7 +20,7 @@ export default function UploadModal(props) {
 
     const onClickHandler = () => {
         if (!filepath) return false
-        const folderPath = ""
+        var folderPath = ""
         if (fileStore.folders.length != 0) {
             folderPath = fileStore.folders.join("/")+"/"
         }

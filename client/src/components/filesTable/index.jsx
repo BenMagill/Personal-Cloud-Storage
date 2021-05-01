@@ -34,7 +34,7 @@ export default function Index(props) {
                     <tr>
                         <th id="name" onClick={handleHeaderClick}>Name{sortable?<FontAwesomeIcon icon={state.name?state.name=="a"?faSortUp:faSortDown:faSort} />:null}</th>
                         <th id="size" onClick={handleHeaderClick}>Size{sortable?<FontAwesomeIcon icon={state.size?state.size=="a"?faSortUp:faSortDown:faSort} />:null}</th>
-                        <th id="date" onClick={handleHeaderClick}>Date{sortable?<FontAwesomeIcon icon={state.date?state.date=="a"?faSortUp:faSortDown:faSort} />:null}</th>
+                        <th className="desktopOnly" id="date" onClick={handleHeaderClick}>Date{sortable?<FontAwesomeIcon icon={state.date?state.date=="a"?faSortUp:faSortDown:faSort} />:null}</th>
                         <th className="filesInfo">Info</th>
                     </tr>
                 </thead>
